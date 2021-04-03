@@ -16,6 +16,8 @@
 		4C662C61261888BE00D569EF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4C662C5F261888BE00D569EF /* LaunchScreen.storyboard */; };
 		4C662C702618A40800D569EF /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C662C6F2618A40800D569EF /* CalendarViewController.swift */; };
 		4C662C742618B3ED00D569EF /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C662C732618B3ED00D569EF /* DataManager.swift */; };
+		4C662C772618E06600D569EF /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C662C762618E06600D569EF /* Constants.swift */; };
+		4C662C7A2618E13F00D569EF /* FoodGoal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C662C792618E13F00D569EF /* FoodGoal.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +32,8 @@
 		4C662C62261888BE00D569EF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4C662C6F2618A40800D569EF /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		4C662C732618B3ED00D569EF /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		4C662C762618E06600D569EF /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		4C662C792618E13F00D569EF /* FoodGoal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodGoal.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +73,7 @@
 				4C662C6B2618895400D569EF /* Controllers */,
 				4C662C692618892100D569EF /* Supporting Files */,
 				4C662C62261888BE00D569EF /* Info.plist */,
+				4C662C762618E06600D569EF /* Constants.swift */,
 			);
 			path = Diet;
 			sourceTree = "<group>";
@@ -104,6 +109,7 @@
 			children = (
 				4C662C5A261888BE00D569EF /* Diet.xcdatamodeld */,
 				4C662C732618B3ED00D569EF /* DataManager.swift */,
+				4C662C792618E13F00D569EF /* FoodGoal.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -182,6 +188,8 @@
 				4C662C742618B3ED00D569EF /* DataManager.swift in Sources */,
 				4C662C56261888BE00D569EF /* ViewController.swift in Sources */,
 				4C662C52261888BE00D569EF /* AppDelegate.swift in Sources */,
+				4C662C7A2618E13F00D569EF /* FoodGoal.swift in Sources */,
+				4C662C772618E06600D569EF /* Constants.swift in Sources */,
 				4C662C54261888BE00D569EF /* SceneDelegate.swift in Sources */,
 				4C662C5C261888BE00D569EF /* Diet.xcdatamodeld in Sources */,
 			);

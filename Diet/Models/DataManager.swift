@@ -16,4 +16,5 @@ class DataManager {
         
         return dateFormatter.string(from: dateToView)
     }
+    
 }
