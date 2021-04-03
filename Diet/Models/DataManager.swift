@@ -13,7 +13,7 @@ class DataManager {
     
     var dateToViewString: String {
         
-        if dateToView.fullDistance(from: Date(), resultIn: .day) == 0 {
+        if dateToView.isSame(with: Date()) {
             
             return "Today"
         } else {
