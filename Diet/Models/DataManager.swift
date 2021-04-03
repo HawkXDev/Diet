@@ -10,11 +10,19 @@ import Foundation
 class DataManager {
     
     var dateToView = Date()
+    
     var dateToViewString: String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MMMM, dd"
         
-        return dateFormatter.string(from: dateToView)
+        if dateToView.fullDistance(from: Date(), resultIn: .day) == 0 {
+            
+            return "Today"
+        } else {
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "MMMM, dd"
+            
+            return dateFormatter.string(from: dateToView)
+        }
     }
     
 }
