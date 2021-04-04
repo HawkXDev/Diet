@@ -21,7 +21,7 @@ class ViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        if segue.identifier == K.calendarSeque {
+        if segue.identifier == K.calendarSegue {
             let destinationVC = segue.destination as! CalendarViewController
             destinationVC.delegate = self
         }

@@ -10,6 +10,82 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Settings View Controller-->
+        <scene sceneID="xqk-PN-cni">
+            <objects>
+                <viewController id="lCs-g5-xMq" customClass="SettingsViewController" customModule="Diet" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="bLC-dd-Tx8">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="AiI-Dn-eF5">
+                                <rect key="frame" x="0.0" y="44" width="414" height="692"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="SettingsMenuCell" id="zDg-Vr-zf2">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="43.666667938232422"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="zDg-Vr-zf2" id="Yj8-eF-5Ww">
+                                            <rect key="frame" x="0.0" y="0.0" width="382.66666666666669" height="43.666667938232422"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Hcf-6I-Cb9"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="AiI-Dn-eF5" firstAttribute="top" secondItem="Hcf-6I-Cb9" secondAttribute="top" id="QZC-AD-g6N"/>
+                            <constraint firstItem="AiI-Dn-eF5" firstAttribute="trailing" secondItem="Hcf-6I-Cb9" secondAttribute="trailing" id="cgf-iH-CW4"/>
+                            <constraint firstItem="AiI-Dn-eF5" firstAttribute="leading" secondItem="Hcf-6I-Cb9" secondAttribute="leading" id="qQo-dy-cxg"/>
+                            <constraint firstItem="AiI-Dn-eF5" firstAttribute="bottom" secondItem="Hcf-6I-Cb9" secondAttribute="bottom" id="whV-71-uw9"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="dHa-W5-mow"/>
+                    <connections>
+                        <outlet property="tableView" destination="AiI-Dn-eF5" id="ZOa-6A-78f"/>
+                        <segue destination="d5q-Sn-LiT" kind="show" identifier="GoToDietGoals" id="PnN-Ux-Fv0"/>
+                        <segue destination="6Xa-pE-Oe5" kind="show" identifier="GoToMyWeight" id="wUI-AZ-NDM"/>
+                        <segue destination="8rc-Wd-Uyj" kind="show" identifier="GoToWaterTracker" id="wCx-Qa-ORm"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oLQ-1S-CAx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2139.130434782609" y="214.4021739130435"/>
+        </scene>
+        <!--My Weight View Controller-->
+        <scene sceneID="2Rb-B2-dt9">
+            <objects>
+                <viewController id="6Xa-pE-Oe5" customClass="MyWeightViewController" customModule="Diet" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="TvK-iJ-R47">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="jet-zz-Pjs"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="bGr-BD-FsS"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DCF-N5-cP4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3019" y="253"/>
+        </scene>
+        <!--Water Tracking View Controller-->
+        <scene sceneID="orB-QZ-Uv5">
+            <objects>
+                <viewController id="8rc-Wd-Uyj" customClass="WaterTrackingViewController" customModule="Diet" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="jzZ-CM-kJ4">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="2OF-8z-2Kr"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="WpS-oT-crj"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="D7h-eu-SnO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3019" y="968"/>
+        </scene>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
@@ -21,17 +97,17 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="top" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="M31-9Q-YNu">
                                 <rect key="frame" x="20" y="59" width="374" height="662"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="151" translatesAutoresizingMaskIntoConstraints="NO" id="SsT-co-qlk">
-                                        <rect key="frame" x="0.0" y="0.0" width="318" height="62"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="SsT-co-qlk">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="62"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Today" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PDu-NL-NJm">
-                                                <rect key="frame" x="0.0" y="0.0" width="118" height="62"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="203.66666666666666" height="62"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="46"/>
                                                 <color key="textColor" name="FontColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HJX-lg-pHF">
-                                                <rect key="frame" x="269" y="0.0" width="49" height="62"/>
+                                                <rect key="frame" x="203.66666666666666" y="0.0" width="84.666666666666657" height="62"/>
                                                 <color key="tintColor" name="TintColor"/>
                                                 <state key="normal">
                                                     <color key="titleColor" red="0.16078431372549018" green="0.50196078431372548" blue="0.72549019607843135" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -40,6 +116,15 @@
                                                 </state>
                                                 <connections>
                                                     <segue destination="oIx-lq-sbe" kind="presentation" identifier="GoToCalendar" id="Euz-eD-jJR"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D0c-c9-xog">
+                                                <rect key="frame" x="288.33333333333331" y="0.0" width="85.666666666666686" height="62"/>
+                                                <state key="normal" image="slider.horizontal.3" catalog="system">
+                                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="40"/>
+                                                </state>
+                                                <connections>
+                                                    <segue destination="lCs-g5-xMq" kind="show" identifier="GoToSettings" id="SYD-Dy-Czf"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -316,6 +401,10 @@
                                         </subviews>
                                     </stackView>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstItem="SsT-co-qlk" firstAttribute="leading" secondItem="M31-9Q-YNu" secondAttribute="leading" id="J5L-gD-dQE"/>
+                                    <constraint firstAttribute="trailing" secondItem="SsT-co-qlk" secondAttribute="trailing" id="bwL-7M-Kwc"/>
+                                </constraints>
                             </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -334,7 +423,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="986.95652173913049" y="78.348214285714278"/>
+            <point key="canvasLocation" x="1270" y="-90"/>
         </scene>
         <!--Calendar View Controller-->
         <scene sceneID="ONu-Q5-ss0">
@@ -379,7 +468,23 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lO8-ox-nZm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1744.9275362318842" y="80.706521739130437"/>
+            <point key="canvasLocation" x="2143" y="-499"/>
+        </scene>
+        <!--Diet Goals View Controller-->
+        <scene sceneID="8rb-tw-3HP">
+            <objects>
+                <viewController id="d5q-Sn-LiT" customClass="DietGoalsViewController" customModule="Diet" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="0Qq-zW-ruc">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="o6F-5b-cke"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="iCn-Uh-zbE"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4df-Wy-AOZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3019" y="-441"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="rpp-1P-VaY">
@@ -397,12 +502,13 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iit-P5-Cwh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="243" y="78"/>
+            <point key="canvasLocation" x="452" y="-90"/>
         </scene>
     </scenes>
     <resources>
         <image name="bg-1" width="450" height="314"/>
         <image name="calendar" catalog="system" width="128" height="106"/>
+        <image name="slider.horizontal.3" catalog="system" width="128" height="100"/>
         <namedColor name="BgColor">
             <color red="0.92500001192092896" green="0.94099998474121094" blue="0.94499999284744263" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
