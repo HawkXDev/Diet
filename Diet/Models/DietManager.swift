@@ -31,6 +31,11 @@ struct DietManager {
         
         dietType = DietTypes(id: id)!
         
+        return calculateDiet()
+    }
+    
+    mutating func calculateDiet() -> FoodGoal {
+        
         var calories = 0
         var carbs = 0.0
         var protein = 0.0

@@ -15,4 +15,5 @@ struct K {
     static let waterTrackerSegue = "GoToWaterTracker"
     
     static let settingsMenuCell = "SettingsMenuCell"
+    static let mealtimeTableCell = "MealtimeTableCell"
 }
