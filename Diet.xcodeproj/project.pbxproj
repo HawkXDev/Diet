@@ -22,6 +22,9 @@
 		4C7647ED2619B54D007FE5F0 /* DietGoalsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C7647EC2619B54D007FE5F0 /* DietGoalsViewController.swift */; };
 		4C7647F02619B56E007FE5F0 /* MyWeightViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C7647EF2619B56E007FE5F0 /* MyWeightViewController.swift */; };
 		4C7647F32619B58C007FE5F0 /* WaterTrackingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C7647F22619B58C007FE5F0 /* WaterTrackingViewController.swift */; };
+		4C96B5712619D4520059BF68 /* DietTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C96B5702619D4520059BF68 /* DietTypes.swift */; };
+		4C96B5742619D5D90059BF68 /* DietManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C96B5732619D5D90059BF68 /* DietManager.swift */; };
+		4C96B5782619DB290059BF68 /* BodyParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C96B5772619DB290059BF68 /* BodyParams.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +45,9 @@
 		4C7647EC2619B54D007FE5F0 /* DietGoalsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DietGoalsViewController.swift; sourceTree = "<group>"; };
 		4C7647EF2619B56E007FE5F0 /* MyWeightViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyWeightViewController.swift; sourceTree = "<group>"; };
 		4C7647F22619B58C007FE5F0 /* WaterTrackingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterTrackingViewController.swift; sourceTree = "<group>"; };
+		4C96B5702619D4520059BF68 /* DietTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DietTypes.swift; sourceTree = "<group>"; };
+		4C96B5732619D5D90059BF68 /* DietManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DietManager.swift; sourceTree = "<group>"; };
+		4C96B5772619DB290059BF68 /* BodyParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyParams.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +128,9 @@
 				4C662C5A261888BE00D569EF /* Diet.xcdatamodeld */,
 				4C662C732618B3ED00D569EF /* DataManager.swift */,
 				4C662C792618E13F00D569EF /* FoodGoal.swift */,
+				4C96B5702619D4520059BF68 /* DietTypes.swift */,
+				4C96B5732619D5D90059BF68 /* DietManager.swift */,
+				4C96B5772619DB290059BF68 /* BodyParams.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -198,6 +207,7 @@
 			files = (
 				4C662C702618A40800D569EF /* CalendarViewController.swift in Sources */,
 				4C662C742618B3ED00D569EF /* DataManager.swift in Sources */,
+				4C96B5782619DB290059BF68 /* BodyParams.swift in Sources */,
 				4C662C56261888BE00D569EF /* ViewController.swift in Sources */,
 				4C662C52261888BE00D569EF /* AppDelegate.swift in Sources */,
 				4C662C7A2618E13F00D569EF /* FoodGoal.swift in Sources */,
@@ -205,9 +215,11 @@
 				4C662C772618E06600D569EF /* Constants.swift in Sources */,
 				4C662C54261888BE00D569EF /* SceneDelegate.swift in Sources */,
 				4C662C5C261888BE00D569EF /* Diet.xcdatamodeld in Sources */,
+				4C96B5712619D4520059BF68 /* DietTypes.swift in Sources */,
 				4C7647EA26199A81007FE5F0 /* SettingsViewController.swift in Sources */,
 				4C7647ED2619B54D007FE5F0 /* DietGoalsViewController.swift in Sources */,
 				4C7647F32619B58C007FE5F0 /* WaterTrackingViewController.swift in Sources */,
+				4C96B5742619D5D90059BF68 /* DietManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -16,7 +16,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+//        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
