@@ -1,4 +1,33 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="false" userDefinedModelVersionIdentifier="">
-    <elements/>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="20D91" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="DishMeasures" representedClassName=".DishMeasures" syncable="YES" codeGenerationType="class">
+        <attribute name="weight" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="food" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Food" inverseName="dishMeasures" inverseEntity="Food"/>
+        <relationship name="measure" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Measure" inverseName="dishes" inverseEntity="Measure"/>
+    </entity>
+    <entity name="Food" representedClassName=".Food" syncable="YES" codeGenerationType="class">
+        <attribute name="calories" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="carbs" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="fat" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="protein" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="dishMeasures" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DishMeasures" inverseName="food" inverseEntity="DishMeasures"/>
+        <relationship name="meals" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Meals" inverseName="food" inverseEntity="Meals"/>
+    </entity>
+    <entity name="Meals" representedClassName=".Meals" syncable="YES" codeGenerationType="class">
+        <attribute name="amount" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="mealtime" optional="YES" attributeType="String"/>
+        <relationship name="food" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Food" inverseName="meals" inverseEntity="Food"/>
+    </entity>
+    <entity name="Measure" representedClassName=".Measure" syncable="YES" codeGenerationType="class">
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="dishes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DishMeasures" inverseName="measure" inverseEntity="DishMeasures"/>
+    </entity>
+    <elements>
+        <element name="DishMeasures" positionX="64.02667236328125" positionY="59.1905517578125" width="128" height="88"/>
+        <element name="Food" positionX="-122.9302368164062" positionY="-30.7449951171875" width="128" height="148"/>
+        <element name="Meals" positionX="-325.0101318359375" positionY="-16.03713989257812" width="128" height="103"/>
+        <element name="Measure" positionX="232.4813232421875" positionY="71.64105224609375" width="128" height="73"/>
+    </elements>
 </model>

@@ -10,6 +10,8 @@ import UIKit
 class ViewController: UIViewController {
     
     let dataManager = DataManager()
+    
+    var selectedRowTableView = 0
 
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var eatenCalories: UILabel!
@@ -31,15 +33,6 @@ class ViewController: UIViewController {
         mealtimesTableView.dataSource = self
         
 //        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!)
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        if segue.identifier == K.calendarSegue {
-            let destinationVC = segue.destination as! CalendarViewController
-            destinationVC.delegate = self
-        }
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -69,6 +62,23 @@ class ViewController: UIViewController {
         
         tableViewHeightLayout.constant = mealtimesTableView.contentSize.height
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == K.calendarSegue {
+            
+            let destinationVC = segue.destination as! CalendarViewController
+            destinationVC.delegate = self
+            
+        } else if segue.identifier == K.mealSegue {
+            
+            let destinationVC = segue.destination as! MealsTableViewController
+            
+            destinationVC.navigationItem.title = Mealtimes.textValue(for: selectedRowTableView)
+        }
+        
+    }
+    
 }
 
 // MARK: - UITableViewDelegate, UITableViewDataSource
@@ -89,6 +99,10 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        selectedRowTableView = indexPath.row
+        
+        performSegue(withIdentifier: K.mealSegue, sender: self)
         
         tableView.deselectRow(at: indexPath, animated: true)
     }

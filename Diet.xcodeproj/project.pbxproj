@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		4C167E49261A02AD00F5E920 /* Mealtimes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C167E48261A02AD00F5E920 /* Mealtimes.swift */; };
+		4C167E4C261A178E00F5E920 /* MealsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C167E4B261A178E00F5E920 /* MealsTableViewController.swift */; };
+		4C167E50261A213100F5E920 /* FoodsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C167E4F261A213100F5E920 /* FoodsViewController.swift */; };
 		4C662C52261888BE00D569EF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C662C51261888BE00D569EF /* AppDelegate.swift */; };
 		4C662C54261888BE00D569EF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C662C53261888BE00D569EF /* SceneDelegate.swift */; };
 		4C662C56261888BE00D569EF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C662C55261888BE00D569EF /* ViewController.swift */; };
@@ -30,6 +32,8 @@
 
 /* Begin PBXFileReference section */
 		4C167E48261A02AD00F5E920 /* Mealtimes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mealtimes.swift; sourceTree = "<group>"; };
+		4C167E4B261A178E00F5E920 /* MealsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealsTableViewController.swift; sourceTree = "<group>"; };
+		4C167E4F261A213100F5E920 /* FoodsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodsViewController.swift; sourceTree = "<group>"; };
 		4C662C4E261888BE00D569EF /* Diet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Diet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C662C51261888BE00D569EF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4C662C53261888BE00D569EF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -114,12 +118,14 @@
 		4C662C6B2618895400D569EF /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				4C167E4B261A178E00F5E920 /* MealsTableViewController.swift */,
 				4C662C6F2618A40800D569EF /* CalendarViewController.swift */,
 				4C662C55261888BE00D569EF /* ViewController.swift */,
 				4C7647E926199A81007FE5F0 /* SettingsViewController.swift */,
 				4C7647EC2619B54D007FE5F0 /* DietGoalsViewController.swift */,
 				4C7647EF2619B56E007FE5F0 /* MyWeightViewController.swift */,
 				4C7647F22619B58C007FE5F0 /* WaterTrackingViewController.swift */,
+				4C167E4F261A213100F5E920 /* FoodsViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -220,10 +226,12 @@
 				4C662C5C261888BE00D569EF /* Diet.xcdatamodeld in Sources */,
 				4C96B5712619D4520059BF68 /* DietTypes.swift in Sources */,
 				4C167E49261A02AD00F5E920 /* Mealtimes.swift in Sources */,
+				4C167E50261A213100F5E920 /* FoodsViewController.swift in Sources */,
 				4C7647EA26199A81007FE5F0 /* SettingsViewController.swift in Sources */,
 				4C7647ED2619B54D007FE5F0 /* DietGoalsViewController.swift in Sources */,
 				4C7647F32619B58C007FE5F0 /* WaterTrackingViewController.swift in Sources */,
 				4C96B5742619D5D90059BF68 /* DietManager.swift in Sources */,
+				4C167E4C261A178E00F5E920 /* MealsTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
