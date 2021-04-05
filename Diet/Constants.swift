@@ -15,9 +15,11 @@ struct K {
     static let waterTrackerSegue = "GoToWaterTracker"
     static let mealSegue = "GoToMeal"
     static let foodsSegue = "GoToFoods"
+    static let measuresSegue = "GoToMeasures"
     
     static let settingsMenuCell = "SettingsMenuCell"
     static let mealtimeTableCell = "MealtimeTableCell"
     static let foodTableCell = "FoodTableCell"
     static let mealsTableCell = "MealsTableCell"
+    static let measuresTableCell = "MeasuresTableCell"
 }

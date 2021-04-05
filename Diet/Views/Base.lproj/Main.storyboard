@@ -52,7 +52,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oLQ-1S-CAx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2139.130434782609" y="214.4021739130435"/>
+            <point key="canvasLocation" x="3046.376811594203" y="214.4021739130435"/>
         </scene>
         <!--My Weight View Controller-->
         <scene sceneID="2Rb-B2-dt9">
@@ -68,7 +68,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DCF-N5-cP4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3019" y="253"/>
+            <point key="canvasLocation" x="3926.0869565217395" y="252.71739130434784"/>
         </scene>
         <!--Water Tracking View Controller-->
         <scene sceneID="orB-QZ-Uv5">
@@ -84,7 +84,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="D7h-eu-SnO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3019" y="968"/>
+            <point key="canvasLocation" x="3926.0869565217395" y="967.66304347826099"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -460,6 +460,41 @@
             </objects>
             <point key="canvasLocation" x="1269.5652173913045" y="-90.489130434782609"/>
         </scene>
+        <!--Measures-->
+        <scene sceneID="CWN-GU-xKr">
+            <objects>
+                <tableViewController id="4L0-iT-glb" customClass="MeasuresTableViewController" customModule="Diet" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Ufw-Oz-fIy">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="716"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MeasuresTableCell" id="TEt-lf-NDk">
+                                <rect key="frame" x="0.0" y="28" width="414" height="43.666667938232422"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="TEt-lf-NDk" id="Xpg-0U-2po">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.666667938232422"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="4L0-iT-glb" id="2Rs-ec-o11"/>
+                            <outlet property="delegate" destination="4L0-iT-glb" id="Kvy-MP-LuS"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Measures" id="tFL-dh-7ay">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="sOC-qH-Bgv">
+                            <connections>
+                                <action selector="addMeasurePressed:" destination="4L0-iT-glb" id="Frj-8V-4Qi"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="c3T-GD-lXv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="42" y="624"/>
+        </scene>
         <!--Foods View Controller-->
         <scene sceneID="WfO-mE-gHG">
             <objects>
@@ -475,6 +510,11 @@
                                 </constraints>
                                 <items>
                                     <navigationItem id="WSW-xs-2ZQ">
+                                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="cz0-4x-S7r">
+                                            <connections>
+                                                <action selector="cancelPressed:" destination="9Em-KW-9xe" id="meC-zr-DIl"/>
+                                            </connections>
+                                        </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="KQA-PG-Zw5">
                                             <connections>
                                                 <action selector="foodAddPressed:" destination="9Em-KW-9xe" id="mgg-mA-9D0"/>
@@ -520,27 +560,41 @@
                                             <constraint firstAttribute="height" constant="300" id="zya-HT-Y3d"/>
                                         </constraints>
                                     </view>
-                                    <pickerView contentMode="scaleToFill" verticalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="bax-du-xSM">
-                                        <rect key="frame" x="0.0" y="310" width="390" height="150"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="150" id="R3y-0V-fYj"/>
-                                        </constraints>
-                                    </pickerView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="fEf-tC-SKJ">
+                                        <rect key="frame" x="0.0" y="310" width="390" height="198"/>
+                                        <subviews>
+                                            <pickerView contentMode="scaleToFill" horizontalHuggingPriority="249" verticalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="bax-du-xSM">
+                                                <rect key="frame" x="0.0" y="0.0" width="355.33333333333331" height="198"/>
+                                            </pickerView>
+                                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CgC-QZ-RV1">
+                                                <rect key="frame" x="365.33333333333331" y="87" width="24.666666666666686" height="24"/>
+                                                <state key="normal" image="plus" catalog="system">
+                                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="23"/>
+                                                </state>
+                                                <connections>
+                                                    <segue destination="eRw-KL-u9Y" kind="presentation" identifier="GoToMeasures" id="P7G-ps-cDx"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Tm5-s2-6Ku">
-                                        <rect key="frame" x="0.0" y="470" width="390" height="34"/>
+                                        <rect key="frame" x="0.0" y="518" width="390" height="34"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="G3u-gC-Qkk">
-                                        <rect key="frame" x="172.66666666666666" y="514" width="45" height="90"/>
+                                        <rect key="frame" x="172.66666666666666" y="562" width="45" height="42"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                         <state key="normal" title="Add"/>
+                                        <connections>
+                                            <action selector="addDishPressed:" destination="9Em-KW-9xe" eventType="touchUpInside" id="15q-Fd-crs"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="Tm5-s2-6Ku" secondAttribute="trailing" id="8sp-an-xlJ"/>
-                                    <constraint firstItem="bax-du-xSM" firstAttribute="leading" secondItem="52p-AV-6gG" secondAttribute="leading" id="DnY-qZ-6tA"/>
-                                    <constraint firstAttribute="trailing" secondItem="bax-du-xSM" secondAttribute="trailing" id="KUS-Cl-H3g"/>
+                                    <constraint firstItem="fEf-tC-SKJ" firstAttribute="leading" secondItem="52p-AV-6gG" secondAttribute="leading" id="Oe1-DV-XqB"/>
+                                    <constraint firstAttribute="trailing" secondItem="fEf-tC-SKJ" secondAttribute="trailing" id="R7j-QU-xib"/>
                                     <constraint firstAttribute="trailing" secondItem="3uJ-FE-h0r" secondAttribute="trailing" id="awO-1O-98C"/>
                                     <constraint firstItem="3uJ-FE-h0r" firstAttribute="leading" secondItem="52p-AV-6gG" secondAttribute="leading" id="xLT-ZC-ioS"/>
                                     <constraint firstItem="Tm5-s2-6Ku" firstAttribute="leading" secondItem="52p-AV-6gG" secondAttribute="leading" id="yI0-se-1Go"/>
@@ -563,12 +617,14 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="addMeasureButton" destination="CgC-QZ-RV1" id="JHP-5S-vSB"/>
+                        <outlet property="dishMeasuresPicker" destination="bax-du-xSM" id="re9-2y-0kL"/>
                         <outlet property="tableView" destination="xtO-LS-3PL" id="xKN-7L-8T0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Gk-41-pQe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="556.52173913043487" y="623.64130434782612"/>
+            <point key="canvasLocation" x="1463.768115942029" y="623.64130434782612"/>
         </scene>
         <!--Meals Table View Controller-->
         <scene sceneID="3C2-Gv-NOD">
@@ -603,7 +659,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6jM-vn-9oy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1270" y="624"/>
+            <point key="canvasLocation" x="2176.8115942028985" y="623.64130434782612"/>
         </scene>
         <!--Calendar View Controller-->
         <scene sceneID="ONu-Q5-ss0">
@@ -787,10 +843,29 @@
             </objects>
             <point key="canvasLocation" x="452" y="-90"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="s0l-q1-isl">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="eRw-KL-u9Y" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="0Ii-Ds-DDK">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="4L0-iT-glb" kind="relationship" relationship="rootViewController" id="WYz-5e-Bhd"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="48C-fo-Vc2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="746" y="624"/>
+        </scene>
     </scenes>
     <resources>
         <image name="bg-1" width="450" height="314"/>
         <image name="calendar" catalog="system" width="128" height="106"/>
+        <image name="plus" catalog="system" width="128" height="113"/>
         <image name="slider.horizontal.3" catalog="system" width="128" height="100"/>
         <namedColor name="BgColor">
             <color red="0.92500001192092896" green="0.94099998474121094" blue="0.94499999284744263" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>

@@ -8,13 +8,26 @@
 import UIKit
 import CoreData
 
+protocol FoodsViewControllerDelegate {
+    func didAddMeal(_ foodsViewController: FoodsViewController, meal: Meal)
+}
+
 class FoodsViewController: UIViewController {
     
     var foodArray = [Food]()
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
+    var selectedFood: Food?
+    
+    var delegate: FoodsViewControllerDelegate?
+    
+    var dishMeasuresArray = [DishMeasure]()
+    var selectedDishMeasure: DishMeasure?
+    
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var addMeasureButton: UIButton!
+    @IBOutlet weak var dishMeasuresPicker: UIPickerView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,8 +35,25 @@ class FoodsViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         
+        dishMeasuresPicker.delegate = self
+        dishMeasuresPicker.dataSource = self
+        
         loadData()
+        updatePicker()
+        
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        // Because first the segue goes to the NavigationController
+        let destinationVC = segue.destination as! UINavigationController
+        
+        let tableViewVC = destinationVC.topViewController as! MeasuresTableViewController
+        tableViewVC.foodParent = selectedFood?.name
+        tableViewVC.delegate = self
+    }
+    
+    // MARK: - IBActions
     
     @IBAction func foodAddPressed(_ sender: UIBarButtonItem) {
         
@@ -85,6 +115,52 @@ class FoodsViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
+    @IBAction func addDishPressed(_ sender: UIButton) {
+        
+        if let food = selectedFood {
+            
+            let alert = UIAlertController(title: "Add\n\(food.name!)", message: nil, preferredStyle: .alert)
+            
+            var textField = UITextField()
+            alert.addTextField { (field) in
+                textField = field
+                textField.placeholder = "\(self.selectedDishMeasure!.measure!.name!)"
+            }
+            
+            alert.addAction(UIAlertAction(title: "Add", style: .default, handler: { (action) in
+                
+                if let qty = Double(textField.text ?? "") {
+                    
+                    let meal = Meal(context: self.context)
+                    meal.food = food
+                    meal.weight = Int32(qty * Double(self.selectedDishMeasure!.weight))
+                    meal.date = Date().truncatedUTC()
+                    meal.calories = meal.weight * food.calories / 100
+                    meal.carbs = meal.weight * food.carbs / 100
+                    meal.protein = meal.weight * food.protein / 100
+                    meal.fat = meal.weight * food.fat / 100
+                    meal.dishMeasure = self.selectedDishMeasure
+                    meal.qty = qty
+                    
+                    self.delegate?.didAddMeal(self, meal: meal)
+                    
+                    self.dismiss(animated: true, completion: nil)
+                }
+            }))
+            
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            
+            present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    @IBAction func cancelPressed(_ sender: UIBarButtonItem) {
+        
+        dismiss(animated: true, completion: nil)
+    }
+    
+    // MARK: - Funcs
+    
     func loadData() {
         
         let request: NSFetchRequest<Food> = Food.fetchRequest()
@@ -96,6 +172,18 @@ class FoodsViewController: UIViewController {
         }
         
         tableView.reloadData()
+    }
+    
+    func updatePicker() {
+
+        dishMeasuresPicker.reloadComponent(0)
+    }
+    
+    func setSelectedDishMeasureFirst() {
+        if dishMeasuresArray.count > 0 {
+            dishMeasuresPicker.selectRow(0, inComponent: 0, animated: true)
+            selectedDishMeasure = dishMeasuresArray[0]
+        }
     }
     
 }
@@ -116,4 +204,58 @@ extension FoodsViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        selectedFood = foodArray[indexPath.row]
+        addMeasureButton.isEnabled = true
+        
+        dishMeasuresArray = selectedFood?.dishMeasures?.allObjects as! [DishMeasure]
+        setSelectedDishMeasureFirst()
+        
+        updatePicker()
+    }
+    
+}
+
+// MARK: - MeasuresTableViewControllerDelegate
+
+extension FoodsViewController: MeasuresTableViewControllerDelegate {
+    
+    func chooseMeasure(_ measuresTableViewController: MeasuresTableViewController, dishMeasure: DishMeasure) {
+        
+        dishMeasure.food = selectedFood
+        
+        do {
+            try context.save()
+        } catch {
+            print("Error saving dishMeasure. \(error)")
+        }
+        
+        updatePicker()
+    }
+}
+
+// MARK: - UIPickerViewDelegate, UIPickerViewDataSource
+
+extension FoodsViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return selectedFood?.dishMeasures?.count ?? 0
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        
+        let dishMeasure = dishMeasuresArray[row]
+        
+        return "\(dishMeasure.measure!.name!) (\(dishMeasure.weight) g)"
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        
+        selectedDishMeasure = dishMeasuresArray[row]
+    }
 }

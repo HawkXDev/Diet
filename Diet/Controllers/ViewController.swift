@@ -134,4 +134,13 @@ extension Date {
         return dateFormatter.string(from: date) == dateFormatter.string(from: self)
     }
     
+    func truncatedUTC() -> Date {
+        
+        var comp: DateComponents = Calendar.current.dateComponents([.year, .month, .day], from: Date())
+        comp.timeZone = TimeZone(abbreviation: "UTC")!
+        let truncated = Calendar.current.date(from: comp)!
+        
+        return truncated
+    }
+    
 }
