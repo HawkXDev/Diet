@@ -6,19 +6,25 @@
 //
 
 import UIKit
+import CoreData
 
 class ViewController: UIViewController {
     
     let dataManager = DataManager()
     
     var selectedRowTableView = 0
+    
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
+    var arrayMeals = [Meal]()
 
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var eatenCalories: UILabel!
     @IBOutlet weak var remainingCalories: UILabel!
     @IBOutlet weak var burnedCalories: UILabel!
-    @IBOutlet weak var carbsProgress: UIView!
-    @IBOutlet weak var proteinProgress: UIView!
+    @IBOutlet weak var caloriesProgress: UIProgressView!
+    @IBOutlet weak var carbsProgress: UIProgressView!
+    @IBOutlet weak var proteinProgress: UIProgressView!
     @IBOutlet weak var fatProgress: UIProgressView!
     @IBOutlet weak var carbsValue: UILabel!
     @IBOutlet weak var proteinValue: UILabel!
@@ -32,14 +38,17 @@ class ViewController: UIViewController {
         mealtimesTableView.delegate = self
         mealtimesTableView.dataSource = self
         
+        mealtimesTableView.register(UINib(nibName: K.viewControllerTableCellNibName, bundle: nil), forCellReuseIdentifier: K.viewControllerTableCell)
+        
+        loadData()
+        
 //        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        var dietManager = DietManager()
-        fillLabels(with: dietManager.calculateDiet())
+        loadData()
         
         navigationController?.isNavigationBarHidden = true
     }
@@ -50,17 +59,11 @@ class ViewController: UIViewController {
         navigationController?.isNavigationBarHidden = false
     }
     
-    func fillLabels(with foodGoal: FoodGoal) {
-        remainingCalories.text = "\(foodGoal.calories)"
-        carbsValue.text = "0 / \(foodGoal.carbs) g"
-        proteinValue.text = "0 / \(foodGoal.protein) g"
-        fatValue.text = "0 / \(foodGoal.fat) g"
-    }
-    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        tableViewHeightLayout.constant = mealtimesTableView.contentSize.height
+        // Dosn't work!
+//        tableViewHeightLayout.constant = mealtimesTableView.contentSize.height
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -75,8 +78,87 @@ class ViewController: UIViewController {
             let destinationVC = segue.destination as! MealsTableViewController
             
             destinationVC.navigationItem.title = Mealtimes.textValue(for: selectedRowTableView)
+            destinationVC.dataManager = dataManager
+        }
+    }
+    
+    // MARK: - Load Data
+    
+    func loadData() {
+        
+        let request: NSFetchRequest<Meal> = Meal.fetchRequest()
+        let predicate = NSPredicate(format: "date = %@", dataManager.dateToView as NSDate)
+        request.predicate = predicate
+        
+        do {
+            arrayMeals = try context.fetch(request)
+        } catch {
+            print("Error fetching meals. \(error)")
         }
         
+        updateSummary()
+        
+        mealtimesTableView.reloadData()
+    }
+    
+    // MARK: - Funcs
+    
+    func getFoodElementsForMealtime(for mealtime: String) -> FoodElements {
+        
+        var calories = 0
+        var carbs = 0
+        var protein = 0
+        var fat = 0
+        
+        for meal in arrayMeals {
+            
+            if meal.mealtime == mealtime {
+                calories += Int(meal.calories)
+                carbs += Int(meal.carbs)
+                protein += Int(meal.protein)
+                fat += Int(meal.fat)
+            }
+        }
+        
+        return FoodElements(calories: calories, carbs: carbs, protein: protein, fat: fat)
+    }
+    
+    func updateSummary() {
+        
+        let summaryElements = getSummaryElements()
+        
+        var dietManager = DietManager()
+        let foodGoal = dietManager.calculateDiet()
+        
+        eatenCalories.text = String(summaryElements.calories)
+        
+        remainingCalories.text = String(foodGoal.calories - summaryElements.calories)
+        carbsValue.text = "\(summaryElements.carbs) / \(foodGoal.carbs) g"
+        proteinValue.text = "\(summaryElements.protein) / \(foodGoal.protein) g"
+        fatValue.text = "\(summaryElements.fat) / \(foodGoal.fat) g"
+        
+        caloriesProgress.progress = Float(summaryElements.calories) / Float(foodGoal.calories)
+        carbsProgress.progress = Float(summaryElements.carbs) / Float(foodGoal.carbs)
+        proteinProgress.progress = Float(summaryElements.protein) / Float(foodGoal.carbs)
+        fatProgress.progress = Float(summaryElements.fat) / Float(foodGoal.carbs)
+    }
+    
+    func getSummaryElements() -> FoodElements {
+        
+        var calories = 0
+        var carbs = 0
+        var protein = 0
+        var fat = 0
+        
+        for meal in arrayMeals {
+            
+            calories += Int(meal.calories)
+            carbs += Int(meal.carbs)
+            protein += Int(meal.protein)
+            fat += Int(meal.fat)
+        }
+        
+        return FoodElements(calories: calories, carbs: carbs, protein: protein, fat: fat)
     }
     
 }
@@ -92,8 +174,27 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: K.mealtimeTableCell, for: indexPath)
-        cell.textLabel?.text = Mealtimes.textValue(for: indexPath.row)
+        let cell = tableView.dequeueReusableCell(withIdentifier: K.viewControllerTableCell, for: indexPath) as! ViewControllerTableCell
+        
+        let mealtime = Mealtimes.textValue(for: indexPath.row)
+        
+        cell.titleView.text = mealtime
+        
+        let foodElements = getFoodElementsForMealtime(for: mealtime)
+        
+        if foodElements.calories > 0 {
+            
+            cell.rightView.isHidden = false
+            
+            cell.caloriesView.text = String(foodElements.calories)
+            cell.carbsView.text = String(foodElements.carbs)
+            cell.proteinView.text = String(foodElements.protein)
+            cell.fatView.text = String(foodElements.fat)
+        } else {
+            
+            cell.rightView.isHidden = true
+        }
+        
         
         return cell
     }
@@ -116,13 +217,14 @@ extension ViewController: CalendarViewControllerDelegate {
     func dateSelected(_ calendarViewController: CalendarViewController, selectedDate: Date) {
         
         dataManager.dateToView = selectedDate
-        
         dateLabel.text = dataManager.dateToViewString
+        
+        loadData()
     }
     
 }
 
-// MARK: - Extension Date
+// MARK: - Type Extensions
 
 extension Date {
 
@@ -136,11 +238,19 @@ extension Date {
     
     func truncatedUTC() -> Date {
         
-        var comp: DateComponents = Calendar.current.dateComponents([.year, .month, .day], from: Date())
+        var comp: DateComponents = Calendar.current.dateComponents([.year, .month, .day], from: self)
         comp.timeZone = TimeZone(abbreviation: "UTC")!
         let truncated = Calendar.current.date(from: comp)!
         
         return truncated
+    }
+    
+}
+
+extension Double {
+    
+    func isInteger() -> Bool {
+        return floor(self) == self
     }
     
 }

@@ -9,7 +9,7 @@ import Foundation
 
 class DataManager {
     
-    var dateToView = Date()
+    var dateToView = Date().truncatedUTC()
     
     var dateToViewString: String {
         

@@ -90,7 +90,7 @@ class FoodsViewController: UIViewController {
             
             if let name = fieldName.text, let calories = fieldCalories.text, let carbs = fieldCarbs.text, let protein = fieldProtein.text, let fat = fieldFat.text {
                 
-                if let caloriesVal = Int32(calories), let carbsVal = Int32(carbs), let proteinVal = Int32(protein), let fatVal = Int32(fat) {
+                if let caloriesVal = Int32(calories), let carbsVal = Double(carbs), let proteinVal = Double(protein), let fatVal = Double(fat) {
                     
                     let newFood = Food(context: self.context)
                     newFood.name = name
@@ -136,15 +136,15 @@ class FoodsViewController: UIViewController {
                     meal.weight = Int32(qty * Double(self.selectedDishMeasure!.weight))
                     meal.date = Date().truncatedUTC()
                     meal.calories = meal.weight * food.calories / 100
-                    meal.carbs = meal.weight * food.carbs / 100
-                    meal.protein = meal.weight * food.protein / 100
-                    meal.fat = meal.weight * food.fat / 100
+                    meal.carbs = Double(meal.weight) * food.carbs / 100.0
+                    meal.protein = Double(meal.weight) * food.protein / 100.0
+                    meal.fat = Double(meal.weight) * food.fat / 100.0
                     meal.dishMeasure = self.selectedDishMeasure
                     meal.qty = qty
                     
                     self.delegate?.didAddMeal(self, meal: meal)
                     
-                    self.dismiss(animated: true, completion: nil)
+                    self.navigationController?.popViewController(animated: true)
                 }
             }))
             
@@ -152,11 +152,6 @@ class FoodsViewController: UIViewController {
             
             present(alert, animated: true, completion: nil)
         }
-    }
-    
-    @IBAction func cancelPressed(_ sender: UIBarButtonItem) {
-        
-        dismiss(animated: true, completion: nil)
     }
     
     // MARK: - Funcs
@@ -209,10 +204,15 @@ extension FoodsViewController: UITableViewDelegate, UITableViewDataSource {
         selectedFood = foodArray[indexPath.row]
         addMeasureButton.isEnabled = true
         
-        dishMeasuresArray = selectedFood?.dishMeasures?.allObjects as! [DishMeasure]
-        setSelectedDishMeasureFirst()
+        updateDishMeasures()
         
         updatePicker()
+    }
+    
+    func updateDishMeasures() {
+        
+        dishMeasuresArray = selectedFood?.dishMeasures?.allObjects as! [DishMeasure]
+        setSelectedDishMeasureFirst()
     }
     
 }
@@ -231,6 +231,7 @@ extension FoodsViewController: MeasuresTableViewControllerDelegate {
             print("Error saving dishMeasure. \(error)")
         }
         
+        updateDishMeasures()
         updatePicker()
     }
 }
@@ -256,6 +257,8 @@ extension FoodsViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         
-        selectedDishMeasure = dishMeasuresArray[row]
+        if row < dishMeasuresArray.count {
+            selectedDishMeasure = dishMeasuresArray[row]
+        }
     }
 }

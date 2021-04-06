@@ -14,11 +14,15 @@ class MealsTableViewController: UITableViewController {
     var mealtime: String?
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-
+    
+    var dataManager: DataManager?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         mealtime = self.navigationItem.title
+        
+        tableView.register(UINib(nibName: K.mealsCellNibName, bundle: nil), forCellReuseIdentifier: K.mealsTableCell)
         
         loadData()
     }
@@ -34,7 +38,7 @@ class MealsTableViewController: UITableViewController {
     func loadData() {
         
         let request: NSFetchRequest<Meal> = Meal.fetchRequest()
-        let predicate = NSPredicate(format: "mealtime CONTAINS[cd] %@", mealtime!)
+        let predicate = NSPredicate(format: "mealtime CONTAINS[cd] %@ && date = %@", mealtime!, dataManager!.dateToView as NSDate)
         request.predicate = predicate
         
         do {
@@ -46,7 +50,7 @@ class MealsTableViewController: UITableViewController {
         tableView.reloadData()
     }
     
-    // MARK: - Section Heading
+    // MARK: - TableViewMethods
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return mealsArray.count
@@ -54,12 +58,25 @@ class MealsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: K.mealsTableCell, for: indexPath)
-        cell.textLabel?.text = mealsArray[indexPath.row].food?.name
+        let meal = mealsArray[indexPath.row]
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: K.mealsTableCell, for: indexPath) as! MealsTableViewCell
+        
+        cell.titleView.text = "\(meal.food!.name!)  \(meal.qty.isInteger() ? String(format: "%.0f", meal.qty) : String(format: "%.1f", meal.qty)) \(meal.dishMeasure!.measure!.name!) "
+        
+        cell.caloriesView.text = String(meal.calories)
+        cell.carbsView.text = String(format: "%.1f", meal.carbs)
+        cell.proteinView.text = String(format: "%.1f", meal.protein)
+        cell.fatView.text = String(format: "%.1f", meal.fat)
         
         return cell
     }
-
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
 }
 
 // MARK: - FoodsViewControllerDelegate
@@ -78,5 +95,5 @@ extension MealsTableViewController: FoodsViewControllerDelegate {
         
         loadData()
     }
-
+    
 }

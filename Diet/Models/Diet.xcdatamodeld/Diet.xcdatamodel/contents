@@ -5,18 +5,13 @@
         <relationship name="food" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Food" inverseName="dishMeasures" inverseEntity="Food"/>
         <relationship name="meals" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Meal" inverseName="dishMeasure" inverseEntity="Meal"/>
         <relationship name="measure" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Measure" inverseName="dishes" inverseEntity="Measure"/>
-        <uniquenessConstraints>
-            <uniquenessConstraint>
-                <constraint value="weight"/>
-            </uniquenessConstraint>
-        </uniquenessConstraints>
     </entity>
     <entity name="Food" representedClassName=".Food" syncable="YES" codeGenerationType="class">
         <attribute name="calories" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="carbs" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="fat" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="carbs" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="fat" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="name" attributeType="String"/>
-        <attribute name="protein" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="protein" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="dishMeasures" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DishMeasure" inverseName="food" inverseEntity="DishMeasure"/>
         <relationship name="meals" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Meal" inverseName="food" inverseEntity="Meal"/>
         <uniquenessConstraints>
@@ -27,11 +22,11 @@
     </entity>
     <entity name="Meal" representedClassName=".Meal" syncable="YES" codeGenerationType="class">
         <attribute name="calories" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="carbs" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="carbs" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="date" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="fat" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="fat" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="mealtime" attributeType="String"/>
-        <attribute name="protein" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="protein" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="qty" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="weight" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="dishMeasure" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DishMeasure" inverseName="meals" inverseEntity="DishMeasure"/>
@@ -47,9 +42,9 @@
         </uniquenessConstraints>
     </entity>
     <elements>
-        <element name="DishMeasure" positionX="64.02667236328125" positionY="59.1905517578125" width="128" height="103"/>
-        <element name="Food" positionX="-122.9302368164062" positionY="-31.7449951171875" width="128" height="148"/>
-        <element name="Meal" positionX="-328.9697875976562" positionY="-51.55734252929688" width="128" height="193"/>
+        <element name="DishMeasure" positionX="64.02667236328125" positionY="59.1905517578125" width="128" height="89"/>
+        <element name="Food" positionX="-122.9302368164062" positionY="-31.7449951171875" width="128" height="134"/>
+        <element name="Meal" positionX="-328.9697875976562" positionY="-51.55734252929688" width="128" height="179"/>
         <element name="Measure" positionX="232.4813232421875" positionY="71.64105224609375" width="128" height="73"/>
     </elements>
 </model>

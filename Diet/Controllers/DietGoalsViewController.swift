@@ -28,7 +28,7 @@ class DietGoalsViewController: UIViewController {
         fillLabels(foosGoal: dietManager.calculateDiet(for: row))
     }
     
-    func fillLabels(foosGoal: FoodGoal) {
+    func fillLabels(foosGoal: FoodElements) {
         
         caloriesValue.text = foosGoal.caloriesText
         carbsValue.text = foosGoal.carbsText

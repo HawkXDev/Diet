@@ -21,5 +21,8 @@ struct K {
     static let mealtimeTableCell = "MealtimeTableCell"
     static let foodTableCell = "FoodTableCell"
     static let mealsTableCell = "MealsTableCell"
+    static let mealsCellNibName = "MealsTableViewCell"
+    static let viewControllerTableCell = "ViewControllerTableCell"
+    static let viewControllerTableCellNibName = "ViewControllerTableCell"
     static let measuresTableCell = "MeasuresTableCell"
 }

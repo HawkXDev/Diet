@@ -27,14 +27,14 @@ struct DietManager {
         return DietTypes(id: id)?.rawValue ?? ""
     }
     
-    mutating func calculateDiet(for id: Int) -> FoodGoal {
+    mutating func calculateDiet(for id: Int) -> FoodElements {
         
         dietType = DietTypes(id: id)!
         
         return calculateDiet()
     }
     
-    mutating func calculateDiet() -> FoodGoal {
+    mutating func calculateDiet() -> FoodElements {
         
         var calories = 0
         var carbs = 0.0
@@ -57,7 +57,7 @@ struct DietManager {
         
         carbs = (Double(calories) - protein * 4 - Double(fat) * 9) / 4.0
         
-        return FoodGoal(calories: calories, carbs: Int(carbs), protein: Int(protein), fat: fat)
+        return FoodElements(calories: calories, carbs: Int(carbs), protein: Int(protein), fat: fat)
     }
     
     func saveDietType() {

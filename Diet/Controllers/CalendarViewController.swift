@@ -39,7 +39,7 @@ class CalendarViewController: UIViewController {
     }
     
     func handleDateChange() {
-        delegate?.dateSelected(self, selectedDate: datePicker.date)
+        delegate?.dateSelected(self, selectedDate: datePicker.date.truncatedUTC())
     }
 
 }
