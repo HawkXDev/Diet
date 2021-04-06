@@ -6,8 +6,9 @@
 //
 
 import UIKit
+import SwipeCellKit
 
-class MealsTableViewCell: UITableViewCell {
+class MealsTableViewCell: SwipeTableViewCell {
     
     @IBOutlet weak var caloriesView: UILabel!
     @IBOutlet weak var carbsView: UILabel!

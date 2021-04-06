@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreData
+import SwipeCellKit
 
 class MealsTableViewController: UITableViewController {
     
@@ -56,11 +57,18 @@ class MealsTableViewController: UITableViewController {
         return mealsArray.count
     }
     
+//    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! SwipeTableViewCell
+//        cell.delegate = self
+//        return cell
+//    }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let meal = mealsArray[indexPath.row]
         
         let cell = tableView.dequeueReusableCell(withIdentifier: K.mealsTableCell, for: indexPath) as! MealsTableViewCell
+        
         
         cell.titleView.text = "\(meal.food!.name!)  \(meal.qty.isInteger() ? String(format: "%.0f", meal.qty) : String(format: "%.1f", meal.qty)) \(meal.dishMeasure!.measure!.name!) "
         
@@ -68,6 +76,8 @@ class MealsTableViewController: UITableViewController {
         cell.carbsView.text = String(format: "%.1f", meal.carbs)
         cell.proteinView.text = String(format: "%.1f", meal.protein)
         cell.fatView.text = String(format: "%.1f", meal.fat)
+        
+        cell.delegate = self
         
         return cell
     }
@@ -94,6 +104,29 @@ extension MealsTableViewController: FoodsViewControllerDelegate {
         }
         
         loadData()
+    }
+    
+}
+
+// MARK: - SwipeTableViewCellDelegate
+
+extension MealsTableViewController: SwipeTableViewCellDelegate {
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+        guard orientation == .right else { return nil }
+
+        let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in
+            // handle action by updating model with deletion
+            let itemToDelete = self.mealsArray[indexPath.row]
+            self.context.delete(itemToDelete)
+            self.mealsArray.remove(at: indexPath.row)
+            tableView.reloadData()
+        }
+
+        // customize the action appearance
+        deleteAction.image = UIImage(named: "delete-icon")
+
+        return [deleteAction]
     }
     
 }

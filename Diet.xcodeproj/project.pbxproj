@@ -33,9 +33,11 @@
 		4C96B5712619D4520059BF68 /* DietTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C96B5702619D4520059BF68 /* DietTypes.swift */; };
 		4C96B5742619D5D90059BF68 /* DietManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C96B5732619D5D90059BF68 /* DietManager.swift */; };
 		4C96B5782619DB290059BF68 /* BodyParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C96B5772619DB290059BF68 /* BodyParams.swift */; };
+		6835617D6C7CAD202AD8B6DD /* Pods_Diet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F88ACA720D3DF84FA64909E1 /* Pods_Diet.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		169016905B4D4902EDBF9B08 /* Pods-Diet.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diet.debug.xcconfig"; path = "Target Support Files/Pods-Diet/Pods-Diet.debug.xcconfig"; sourceTree = "<group>"; };
 		4C167E48261A02AD00F5E920 /* Mealtimes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mealtimes.swift; sourceTree = "<group>"; };
 		4C167E4B261A178E00F5E920 /* MealsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealsTableViewController.swift; sourceTree = "<group>"; };
 		4C167E4F261A213100F5E920 /* FoodsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodsViewController.swift; sourceTree = "<group>"; };
@@ -64,6 +66,8 @@
 		4C96B5702619D4520059BF68 /* DietTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DietTypes.swift; sourceTree = "<group>"; };
 		4C96B5732619D5D90059BF68 /* DietManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DietManager.swift; sourceTree = "<group>"; };
 		4C96B5772619DB290059BF68 /* BodyParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyParams.swift; sourceTree = "<group>"; };
+		883A46B1400595DEEDD9AB19 /* Pods-Diet.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diet.release.xcconfig"; path = "Target Support Files/Pods-Diet/Pods-Diet.release.xcconfig"; sourceTree = "<group>"; };
+		F88ACA720D3DF84FA64909E1 /* Pods_Diet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Diet.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,17 +75,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6835617D6C7CAD202AD8B6DD /* Pods_Diet.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		36AB3D53C634D063B5294A55 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F88ACA720D3DF84FA64909E1 /* Pods_Diet.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		4C662C45261888BE00D569EF = {
 			isa = PBXGroup;
 			children = (
 				4C662C50261888BE00D569EF /* Diet */,
 				4C662C4F261888BE00D569EF /* Products */,
+				C5D1D00036A8D0FB776F1C4B /* Pods */,
+				36AB3D53C634D063B5294A55 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -159,6 +174,16 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		C5D1D00036A8D0FB776F1C4B /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				169016905B4D4902EDBF9B08 /* Pods-Diet.debug.xcconfig */,
+				883A46B1400595DEEDD9AB19 /* Pods-Diet.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -166,9 +191,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4C662C65261888BE00D569EF /* Build configuration list for PBXNativeTarget "Diet" */;
 			buildPhases = (
+				FED1378D14F6479DC3A26AD2 /* [CP] Check Pods Manifest.lock */,
 				4C662C4A261888BE00D569EF /* Sources */,
 				4C662C4B261888BE00D569EF /* Frameworks */,
 				4C662C4C261888BE00D569EF /* Resources */,
+				09EB57DCB8C3C29D94D69F76 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -225,6 +252,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		09EB57DCB8C3C29D94D69F76 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Diet/Pods-Diet-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Diet/Pods-Diet-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Diet/Pods-Diet-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FED1378D14F6479DC3A26AD2 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Diet-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		4C662C4A261888BE00D569EF /* Sources */ = {
@@ -395,6 +464,7 @@
 		};
 		4C662C66261888BE00D569EF /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 169016905B4D4902EDBF9B08 /* Pods-Diet.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -414,6 +484,7 @@
 		};
 		4C662C67261888BE00D569EF /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 883A46B1400595DEEDD9AB19 /* Pods-Diet.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
