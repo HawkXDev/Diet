@@ -32,6 +32,7 @@ class MealsTableViewController: UITableViewController {
         
         let destinationVC = segue.destination as! FoodsViewController
         destinationVC.delegate = self
+        destinationVC.dataManager = dataManager
     }
     
     // MARK: - Funcs

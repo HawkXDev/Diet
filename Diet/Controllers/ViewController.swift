@@ -69,12 +69,11 @@ class ViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == K.calendarSegue {
-            
             let destinationVC = segue.destination as! CalendarViewController
+            
             destinationVC.delegate = self
-            
+            destinationVC.dataManager = dataManager
         } else if segue.identifier == K.mealSegue {
-            
             let destinationVC = segue.destination as! MealsTableViewController
             
             destinationVC.navigationItem.title = Mealtimes.textValue(for: selectedRowTableView)
@@ -140,7 +139,7 @@ class ViewController: UIViewController {
         caloriesProgress.progress = Float(summaryElements.calories) / Float(foodGoal.calories)
         carbsProgress.progress = Float(summaryElements.carbs) / Float(foodGoal.carbs)
         proteinProgress.progress = Float(summaryElements.protein) / Float(foodGoal.carbs)
-        fatProgress.progress = Float(summaryElements.fat) / Float(foodGoal.carbs)
+        fatProgress.progress = Float(summaryElements.fat) / Float(foodGoal.fat)
     }
     
     func getSummaryElements() -> FoodElements {

@@ -15,15 +15,12 @@ protocol FoodsViewControllerDelegate {
 class FoodsViewController: UIViewController {
     
     var foodArray = [Food]()
-    
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    
     var selectedFood: Food?
-    
     var delegate: FoodsViewControllerDelegate?
-    
     var dishMeasuresArray = [DishMeasure]()
     var selectedDishMeasure: DishMeasure?
+    var dataManager: DataManager?
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var addMeasureButton: UIButton!
@@ -134,7 +131,7 @@ class FoodsViewController: UIViewController {
                     let meal = Meal(context: self.context)
                     meal.food = food
                     meal.weight = Int32(qty * Double(self.selectedDishMeasure!.weight))
-                    meal.date = Date().truncatedUTC()
+                    meal.date = self.dataManager?.dateToView
                     meal.calories = meal.weight * food.calories / 100
                     meal.carbs = Double(meal.weight) * food.carbs / 100.0
                     meal.protein = Double(meal.weight) * food.protein / 100.0
@@ -159,6 +156,8 @@ class FoodsViewController: UIViewController {
     func loadData() {
         
         let request: NSFetchRequest<Food> = Food.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
+        request.sortDescriptors = [sortDescriptor]
         
         do {
             foodArray = try context.fetch(request)

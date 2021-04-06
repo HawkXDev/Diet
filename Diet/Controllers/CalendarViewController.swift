@@ -14,12 +14,14 @@ protocol CalendarViewControllerDelegate {
 class CalendarViewController: UIViewController {
     
     var delegate: CalendarViewControllerDelegate?
+    var dataManager: DataManager?
 
     @IBOutlet weak var datePicker: UIDatePicker!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        datePicker.setDate(dataManager!.dateToView, animated: true)
     }
     
     @IBAction func todayPressed(_ sender: UIBarButtonItem) {
