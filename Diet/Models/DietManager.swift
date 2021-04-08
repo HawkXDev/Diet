@@ -10,32 +10,25 @@ import Foundation
 struct DietManager {
     
     var dietType: DietTypes?
-    
     let dietTypesCount = DietTypes.allCases.count
-    
     let defaults = UserDefaults.standard
     
     init() {
         if let dietTypeRowValue = defaults.string(forKey: "DietType") {
-            
             dietType = DietTypes(rawValue: dietTypeRowValue)
         }
     }
     
     func dietTypeTitle(for id: Int) -> String {
-        
         return DietTypes(id: id)?.rawValue ?? ""
     }
     
     mutating func calculateDiet(for id: Int) -> FoodElements {
-        
         dietType = DietTypes(id: id)!
-        
         return calculateDiet()
     }
     
     mutating func calculateDiet() -> FoodElements {
-        
         var calories = 0
         var carbs = 0.0
         var protein = 0.0
@@ -61,12 +54,10 @@ struct DietManager {
     }
     
     func saveDietType() {
-
         defaults.setValue(dietType?.rawValue, forKey: "DietType")
     }
     
     func getId() -> Int {
-        
         if let diet = dietType {
             return diet.getId()
         } else {
