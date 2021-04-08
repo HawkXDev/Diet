@@ -11,17 +11,17 @@ import CoreData
 struct MealsManager {
     let dataManager: DataManager
     var arrayMeals = [Meal]()
+    var arrayForMeal = [Meal]()
     let context = (UIApplication.shared.delegate as! AppDelegate)
         .persistentContainer.viewContext
     var summaryElements: FoodElements?
     var foodGoal: FoodElements?
     
-    mutating func loadData() {
+    mutating func loadData(mealtime: String? = nil) {
         let request: NSFetchRequest<Meal> = Meal.fetchRequest()
         let predicate = NSPredicate(format: "date = %@",
                                     dataManager.dateToView as NSDate)
         request.predicate = predicate
-        
         do {
             arrayMeals = try context.fetch(request)
         } catch {
@@ -29,6 +29,19 @@ struct MealsManager {
         }
         
         updateSummary()
+        
+        if mealtime != nil {
+            let request2: NSFetchRequest<Meal> = Meal.fetchRequest()
+            let predicate2 = NSPredicate(format: "mealtime = %@ && date = %@",
+                                         mealtime!,
+                                         dataManager.dateToView as NSDate)
+            request2.predicate = predicate2
+            do {
+                arrayForMeal = try context.fetch(request2)
+            } catch {
+                print("Error fetching meals. \(error)")
+            }
+        }
     }
     
     private mutating func updateSummary() {
@@ -44,7 +57,6 @@ struct MealsManager {
         var fat = 0
         
         for meal in arrayMeals {
-            
             calories += Int(meal.calories)
             carbs += Int(meal.carbs)
             protein += Int(meal.protein)
@@ -105,4 +117,32 @@ struct MealsManager {
                             protein: protein,
                             fat: fat)
     }
+    
+    mutating func deleteMeal(index: Int) {
+        let itemToDelete = arrayForMeal[index]
+        context.delete(itemToDelete)
+        do {
+            try context.save()
+        } catch {
+            print("Error saving context. \(error)")
+        }
+        arrayForMeal.remove(at: index)
+    }
+    
+    var mealsCount: Int {
+        return arrayForMeal.count
+    }
+
+    func getMeal(index: Int) -> Meal {
+        return arrayForMeal[index]
+    }
+    
+    func saveContext() {
+        do {
+            try context.save()
+        } catch {
+            print("Error saving meal. \(error)")
+        }
+    }
+    
 }

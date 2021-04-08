@@ -15,7 +15,8 @@ protocol FoodsViewControllerDelegate {
 class FoodsViewController: UIViewController {
     
     var foodArray = [Food]()
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    let context = (UIApplication.shared.delegate as! AppDelegate)
+        .persistentContainer.viewContext
     var selectedFood: Food?
     var delegate: FoodsViewControllerDelegate?
     var dishMeasuresArray = [DishMeasure]()
@@ -45,7 +46,8 @@ class FoodsViewController: UIViewController {
         // Because first the segue goes to the NavigationController
         let destinationVC = segue.destination as! UINavigationController
         
-        let tableViewVC = destinationVC.topViewController as! MeasuresTableViewController
+        let tableViewVC =
+            destinationVC.topViewController as! MeasuresTableViewController
         tableViewVC.foodParent = selectedFood?.name
         tableViewVC.delegate = self
     }
@@ -54,7 +56,9 @@ class FoodsViewController: UIViewController {
     
     @IBAction func foodAddPressed(_ sender: UIBarButtonItem) {
         
-        let alert = UIAlertController(title: "Add food", message: "", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Add food",
+                                      message: "",
+                                      preferredStyle: .alert)
         
         var fieldName = UITextField()
         var fieldCalories = UITextField()
@@ -85,9 +89,16 @@ class FoodsViewController: UIViewController {
         
         let action = UIAlertAction(title: "Add", style: .default) { (action) in
             
-            if let name = fieldName.text, let calories = fieldCalories.text, let carbs = fieldCarbs.text, let protein = fieldProtein.text, let fat = fieldFat.text {
+            if let name = fieldName.text,
+               let calories = fieldCalories.text,
+               let carbs = fieldCarbs.text,
+               let protein = fieldProtein.text,
+               let fat = fieldFat.text {
                 
-                if let caloriesVal = Int32(calories), let carbsVal = Double(carbs), let proteinVal = Double(protein), let fatVal = Double(fat) {
+                if let caloriesVal = Int32(calories),
+                   let carbsVal = Double(carbs),
+                   let proteinVal = Double(protein),
+                   let fatVal = Double(fat) {
                     
                     let newFood = Food(context: self.context)
                     newFood.name = name
@@ -116,21 +127,26 @@ class FoodsViewController: UIViewController {
         
         if let food = selectedFood {
             
-            let alert = UIAlertController(title: "Add\n\(food.name!)", message: nil, preferredStyle: .alert)
+            let alert = UIAlertController(title: "Add\n\(food.name!)",
+                                          message: nil,
+                                          preferredStyle: .alert)
             
             var textField = UITextField()
+            let measureName = self.selectedDishMeasure!.measure!.name!
             alert.addTextField { (field) in
                 textField = field
-                textField.placeholder = "\(self.selectedDishMeasure!.measure!.name!)"
+                textField.placeholder = "\(measureName)"
             }
             
-            alert.addAction(UIAlertAction(title: "Add", style: .default, handler: { (action) in
-                
+            alert.addAction(UIAlertAction(title: "Add",
+                                          style: .default,
+                                          handler: { (action) in
                 if let qty = Double(textField.text ?? "") {
                     
                     let meal = Meal(context: self.context)
                     meal.food = food
-                    meal.weight = Int32(qty * Double(self.selectedDishMeasure!.weight))
+                    meal.weight =
+                        Int32(qty * Double(self.selectedDishMeasure!.weight))
                     meal.date = self.dataManager?.dateToView
                     meal.calories = meal.weight * food.calories / 100
                     meal.carbs = Double(meal.weight) * food.carbs / 100.0
@@ -145,7 +161,9 @@ class FoodsViewController: UIViewController {
                 }
             }))
             
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "Cancel",
+                                          style: .cancel,
+                                          handler: nil))
             
             present(alert, animated: true, completion: nil)
         }
@@ -186,19 +204,24 @@ class FoodsViewController: UIViewController {
 
 extension FoodsViewController: UITableViewDelegate, UITableViewDataSource {
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView,
+                   numberOfRowsInSection section: Int) -> Int {
         return foodArray.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView,
+                   cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: K.foodTableCell, for: indexPath)
+        let cell = tableView
+            .dequeueReusableCell(withIdentifier: K.foodTableCell,
+                                 for: indexPath)
         cell.textLabel?.text = foodArray[indexPath.row].name
         
         return cell
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView,
+                   didSelectRowAt indexPath: IndexPath) {
         
         selectedFood = foodArray[indexPath.row]
         addMeasureButton.isEnabled = true
@@ -210,7 +233,8 @@ extension FoodsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func updateDishMeasures() {
         
-        dishMeasuresArray = selectedFood?.dishMeasures?.allObjects as! [DishMeasure]
+        dishMeasuresArray =
+            selectedFood?.dishMeasures?.allObjects as! [DishMeasure]
         setSelectedDishMeasureFirst()
     }
     
@@ -220,7 +244,8 @@ extension FoodsViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension FoodsViewController: MeasuresTableViewControllerDelegate {
     
-    func chooseMeasure(_ measuresTableViewController: MeasuresTableViewController, dishMeasure: DishMeasure) {
+    func chooseMeasure(_ measuresTVC: MeasuresTableViewController,
+                       dishMeasure: DishMeasure) {
         
         dishMeasure.food = selectedFood
         
@@ -243,18 +268,23 @@ extension FoodsViewController: UIPickerViewDelegate, UIPickerViewDataSource {
         return 1
     }
     
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    func pickerView(_ pickerView: UIPickerView,
+                    numberOfRowsInComponent component: Int) -> Int {
         return selectedFood?.dishMeasures?.count ?? 0
     }
     
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    func pickerView(_ pickerView: UIPickerView,
+                    titleForRow row: Int,
+                    forComponent component: Int) -> String? {
         
         let dishMeasure = dishMeasuresArray[row]
         
         return "\(dishMeasure.measure!.name!) (\(dishMeasure.weight) g)"
     }
     
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    func pickerView(_ pickerView: UIPickerView,
+                    didSelectRow row: Int,
+                    inComponent component: Int) {
         
         if row < dishMeasuresArray.count {
             selectedDishMeasure = dishMeasuresArray[row]

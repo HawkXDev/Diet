@@ -20,12 +20,10 @@ class MealsView: UIViewController {
     @IBOutlet weak var fatProgress: UIProgressView!
     @IBOutlet weak var mealTotalInfo: UILabel!
     
-    let context = (UIApplication.shared.delegate as! AppDelegate)
-        .persistentContainer.viewContext
-    var mealsArray = [Meal]()
     var mealtime: String?
     var dataManager: DataManager?
     var mealsManager: MealsManager?
+    var selectedMeal: Meal?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,20 +56,7 @@ class MealsView: UIViewController {
     // MARK: - Load Data
     
     func loadData() {
-        let request: NSFetchRequest<Meal> = Meal.fetchRequest()
-        
-        let predicate =
-            NSPredicate(format: "mealtime CONTAINS[cd] %@ && date = %@",
-                        mealtime!,
-                        dataManager!.dateToView as NSDate)
-        request.predicate = predicate
-        
-        do {
-            mealsArray = try context.fetch(request)
-        } catch {
-            print("Error fetching meals. \(error)")
-        }
-        
+        mealsManager?.loadData(mealtime: mealtime)
         tableView.reloadData()
         updateSummary()
     }
@@ -79,7 +64,7 @@ class MealsView: UIViewController {
     // MARK: - Update Summary
     
     func updateSummary() {
-        mealsManager?.loadData()
+        mealsManager?.loadData(mealtime: mealtime)
         caloriesProgress.progress = mealsManager!.caloriesProgress
         carbsProgress.progress = mealsManager!.carbsProgress
         proteinProgress.progress = mealsManager!.proteinProgress
@@ -101,13 +86,13 @@ extension MealsView: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView,
                    numberOfRowsInSection section: Int) -> Int {
-        return mealsArray.count
+        return mealsManager!.mealsCount
     }
     
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let meal = mealsArray[indexPath.row]
+        let meal = mealsManager!.getMeal(index: indexPath.row)
         
         let cell = tableView
             .dequeueReusableCell(withIdentifier: K.mealsTableCell,
@@ -132,7 +117,66 @@ extension MealsView: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView,
                    didSelectRowAt indexPath: IndexPath) {
+        
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        selectedMeal = mealsManager!.getMeal(index: indexPath.row)
+        let food = selectedMeal!.food!
+        let dishMeasure = selectedMeal!.dishMeasure!
+        
+        let alert = UIAlertController(title: "Change\n\(food.name!)",
+                                      message: nil,
+                                      preferredStyle: .alert)
+        
+        var textField = UITextField()
+        
+        let measureName = dishMeasure.measure!.name!
+        alert.addTextField { (field) in
+            textField = field
+            textField.placeholder = "\(measureName)"
+            textField.addTarget(self,
+                                action: #selector(self.textFieldChanged),
+                                for: .editingChanged)
+        }
+        
+        alert.addAction(UIAlertAction(title: "Change",
+                                      style: .default,
+                                      handler: { (action) in
+                                        
+            if let qty = Double(textField.text ?? "") {
+                self.updateMeal(qty: qty)
+            }
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel",
+                                      style: .cancel,
+                                      handler: nil))
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
+    @objc func textFieldChanged(textField: UITextField) {
+        if let qty = Double(textField.text ?? "") {
+            self.updateMeal(qty: qty)
+        }
+    }
+    
+    func updateMeal(qty: Double) {
+        if let meal = selectedMeal {
+            let food = meal.food!
+            let dishMeasure = meal.dishMeasure!
+            
+            meal.weight = Int32(qty * Double(dishMeasure.weight))
+            meal.calories = meal.weight * food.calories / 100
+            meal.carbs = Double(meal.weight) * food.carbs / 100.0
+            meal.protein = Double(meal.weight) * food.protein / 100.0
+            meal.fat = Double(meal.weight) * food.fat / 100.0
+            meal.qty = qty
+            
+            mealsManager!.saveContext()
+            
+            self.loadData()
+        }
     }
     
 }
@@ -144,11 +188,7 @@ extension MealsView: FoodsViewControllerDelegate {
     func didAddMeal(_ foodsViewController: FoodsViewController, meal: Meal) {
         meal.mealtime = mealtime
         
-        do {
-            try context.save()
-        } catch {
-            print("Error saving meal. \(error)")
-        }
+        mealsManager!.saveContext()
         
         loadData()
     }
@@ -165,12 +205,8 @@ extension MealsView: SwipeTableViewCellDelegate {
 
         let deleteAction = SwipeAction(style: .destructive, title: "Delete") {
             action, indexPath in
-            
             // handle action by updating model with deletion
-            let itemToDelete = self.mealsArray[indexPath.row]
-            self.context.delete(itemToDelete)
-            self.mealsArray.remove(at: indexPath.row)
-            
+            self.mealsManager!.deleteMeal(index: indexPath.row)
             tableView.reloadData()
             self.updateSummary()
         }
