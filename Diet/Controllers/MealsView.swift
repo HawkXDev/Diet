@@ -23,7 +23,11 @@ class MealsView: UIViewController {
     var mealtime: String?
     var dataManager: DataManager?
     var mealsManager: MealsManager?
-    var selectedMeal: Meal?
+    var selectedMeal: Meal? {
+        didSet {
+            showAlertForUpdateMeal()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,6 +82,45 @@ class MealsView: UIViewController {
             "f: \(mealElements.fat))"
     }
     
+    // MARK: - Show Alert For Update Meal
+    
+    func showAlertForUpdateMeal() {
+        let savedQty = selectedMeal!.qty
+        let food = selectedMeal!.food!
+        let dishMeasure = selectedMeal!.dishMeasure!
+        
+        let alert = UIAlertController(title: "Change\n\(food.name!)",
+                                      message: nil,
+                                      preferredStyle: .alert)
+        
+        var textField = UITextField()
+        
+        let measureName = dishMeasure.measure!.name!
+        alert.addTextField { (field) in
+            textField = field
+            textField.placeholder = "\(measureName)"
+            textField.addTarget(self,
+                                action: #selector(self.textFieldChanged),
+                                for: .editingChanged)
+        }
+        
+        alert.addAction(UIAlertAction(title: "Change",
+                                      style: .default,
+                                      handler: { (action) in
+                                        
+            if let qty = Double(textField.text ?? "") {
+                self.updateMeal(qty: qty)
+            }
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel",
+                                      style: .cancel,
+                                      handler: { (action) in
+            self.updateMeal(qty: savedQty)
+        }))
+        
+        present(alert, animated: true, completion: nil)
+    }
 }
 
 // MARK: - UITableViewDelegate, UITableViewDataSource
@@ -121,38 +164,6 @@ extension MealsView: UITableViewDelegate, UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: true)
         
         selectedMeal = mealsManager!.getMeal(index: indexPath.row)
-        let food = selectedMeal!.food!
-        let dishMeasure = selectedMeal!.dishMeasure!
-        
-        let alert = UIAlertController(title: "Change\n\(food.name!)",
-                                      message: nil,
-                                      preferredStyle: .alert)
-        
-        var textField = UITextField()
-        
-        let measureName = dishMeasure.measure!.name!
-        alert.addTextField { (field) in
-            textField = field
-            textField.placeholder = "\(measureName)"
-            textField.addTarget(self,
-                                action: #selector(self.textFieldChanged),
-                                for: .editingChanged)
-        }
-        
-        alert.addAction(UIAlertAction(title: "Change",
-                                      style: .default,
-                                      handler: { (action) in
-                                        
-            if let qty = Double(textField.text ?? "") {
-                self.updateMeal(qty: qty)
-            }
-        }))
-        
-        alert.addAction(UIAlertAction(title: "Cancel",
-                                      style: .cancel,
-                                      handler: nil))
-        
-        present(alert, animated: true, completion: nil)
     }
     
     @objc func textFieldChanged(textField: UITextField) {
@@ -166,7 +177,10 @@ extension MealsView: UITableViewDelegate, UITableViewDataSource {
             let food = meal.food!
             let dishMeasure = meal.dishMeasure!
             
-            meal.weight = Int32(qty * Double(dishMeasure.weight))
+            let weightD = qty * Double(dishMeasure.weight)
+            meal.weight = weightD < Double(Int32.max)
+                ? Int32(qty * Double(dishMeasure.weight))
+                : Int32.max
             meal.calories = meal.weight * food.calories / 100
             meal.carbs = Double(meal.weight) * food.carbs / 100.0
             meal.protein = Double(meal.weight) * food.protein / 100.0
@@ -174,7 +188,6 @@ extension MealsView: UITableViewDelegate, UITableViewDataSource {
             meal.qty = qty
             
             mealsManager!.saveContext()
-            
             self.loadData()
         }
     }

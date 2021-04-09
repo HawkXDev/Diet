@@ -892,13 +892,13 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fNT-JP-Fd3">
-                                                <rect key="frame" x="0.0" y="69" width="414" height="60"/>
+                                                <rect key="frame" x="0.0" y="69" width="414" height="50"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d0R-0c-c4I">
-                                                        <rect key="frame" x="20" y="0.0" width="374" height="60"/>
+                                                        <rect key="frame" x="20" y="0.0" width="374" height="50"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1000 kcal  (c: 333 p: 333 f: 333)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o7p-tC-qHf">
-                                                                <rect key="frame" x="64" y="20" width="246" height="20.333333333333329"/>
+                                                                <rect key="frame" x="64" y="14.999999999999998" width="246" height="20.333333333333329"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <nil key="highlightedColor"/>
@@ -907,7 +907,6 @@
                                                         <color key="backgroundColor" red="0.90196078431372551" green="0.49411764705882355" blue="0.13333333333333333" alpha="1" colorSpace="calibratedRGB"/>
                                                         <constraints>
                                                             <constraint firstItem="o7p-tC-qHf" firstAttribute="centerX" secondItem="d0R-0c-c4I" secondAttribute="centerX" id="KOg-3H-HYM"/>
-                                                            <constraint firstAttribute="height" constant="60" id="Qo9-sx-pLJ"/>
                                                             <constraint firstItem="o7p-tC-qHf" firstAttribute="centerY" secondItem="d0R-0c-c4I" secondAttribute="centerY" id="Un2-XI-EIX"/>
                                                         </constraints>
                                                     </view>
@@ -917,11 +916,12 @@
                                                     <constraint firstAttribute="bottom" secondItem="d0R-0c-c4I" secondAttribute="bottom" id="PvL-OT-B1A"/>
                                                     <constraint firstItem="d0R-0c-c4I" firstAttribute="leading" secondItem="fNT-JP-Fd3" secondAttribute="leading" constant="20" id="S5h-kJ-tqq"/>
                                                     <constraint firstAttribute="trailing" secondItem="d0R-0c-c4I" secondAttribute="trailing" constant="20" id="XV3-xR-rcz"/>
+                                                    <constraint firstAttribute="height" constant="50" id="eR4-Bn-coE"/>
                                                     <constraint firstItem="d0R-0c-c4I" firstAttribute="top" secondItem="fNT-JP-Fd3" secondAttribute="top" id="q8h-Cw-wdO"/>
                                                 </constraints>
                                             </view>
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="uFd-Cw-D8f">
-                                                <rect key="frame" x="0.0" y="138" width="414" height="544"/>
+                                                <rect key="frame" x="0.0" y="128" width="414" height="554"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             </tableView>
                                         </subviews>
