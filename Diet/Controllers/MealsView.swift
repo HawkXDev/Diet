@@ -23,9 +23,12 @@ class MealsView: UIViewController {
     var mealtime: String?
     var dataManager: DataManager?
     var mealsManager: MealsManager?
+    var mealInfo: MealInfo?
+    
     var selectedMeal: Meal? {
         didSet {
-            showAlertForUpdateMeal()
+            mealInfo = MealInfo(for: selectedMeal!)
+            performSegue(withIdentifier: K.mealPopover, sender: self)
         }
     }
     
@@ -52,14 +55,19 @@ class MealsView: UIViewController {
     // MARK: - Routing
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
         if segue.identifier == K.foodsSegue {
+            
             let destinationVC = segue.destination as! FoodsViewController
             destinationVC.delegate = self
             destinationVC.dataManager = dataManager
+            
         } else if segue.identifier == K.mealPopover {
+            
             let popoverViewController =
                 segue.destination as! MealPopoverViewController
             popoverViewController.modalPresentationStyle = .popover
+            
             let popover = popoverViewController.popoverPresentationController!
             popover.delegate = self
             
@@ -68,7 +76,9 @@ class MealsView: UIViewController {
             popover.sourceRect = topSecondView.bounds
             
             popoverViewController.delegate = self
-            popoverViewController.mealInfo = MealInfo(for: selectedMeal!)
+            
+            guard let safeMealInfo = mealInfo else { fatalError() }
+            popoverViewController.mealInfo = safeMealInfo
         }
         
     }
@@ -104,9 +114,7 @@ class MealsView: UIViewController {
     
     // MARK: - Show Alert For Update Meal
     
-    func showAlertForUpdateMeal() {
-        performSegue(withIdentifier: K.mealPopover, sender: self)
-        
+//    func showAlertForUpdateMeal() {
 //        let savedQty = selectedMeal!.qty
 //        let food = selectedMeal!.food!
 //        let dishMeasure = selectedMeal!.dishMeasure!
@@ -142,8 +150,15 @@ class MealsView: UIViewController {
 //        }))
 //
 //        present(alert, animated: true, completion: nil)
-    }
+//    }
+    
 }
+
+//@objc func textFieldChanged(textField: UITextField) {
+//    if let qty = Double(textField.text ?? "") {
+//        self.updateMeal(qty: qty)
+//    }
+//}
 
 // MARK: - UITableViewDelegate, UITableViewDataSource
 
@@ -183,27 +198,9 @@ extension MealsView: UITableViewDelegate, UITableViewDataSource {
         selectedMeal = mealsManager!.getMeal(index: indexPath.row)
     }
     
-    @objc func textFieldChanged(textField: UITextField) {
-        if let qty = Double(textField.text ?? "") {
-            self.updateMeal(qty: qty)
-        }
-    }
-    
     func updateMeal(qty: Double) {
-        if let meal = selectedMeal {
-            let food = meal.food!
-            let dishMeasure = meal.dishMeasure!
-            
-            let weightD = qty * Double(dishMeasure.weight)
-            meal.weight = weightD < Double(Int32.max)
-                ? Int32(qty * Double(dishMeasure.weight))
-                : Int32.max
-            meal.calories = meal.weight * food.calories / 100
-            meal.carbs = Double(meal.weight) * food.carbs / 100.0
-            meal.protein = Double(meal.weight) * food.protein / 100.0
-            meal.fat = Double(meal.weight) * food.fat / 100.0
-            meal.qty = qty
-            
+        if selectedMeal != nil {
+            mealInfo!.qty = qty
             mealsManager!.saveContext()
             self.loadData()
         }

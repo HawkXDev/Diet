@@ -55,7 +55,6 @@ extension DietGoalsViewController: UIPickerViewDelegate, UIPickerViewDataSource 
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-
         fillLabels(foosGoal: dietManager.calculateDiet(for: row))
         dietManager.saveDietType()
     }

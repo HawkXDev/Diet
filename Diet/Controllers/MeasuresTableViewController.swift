@@ -15,11 +15,8 @@ protocol MeasuresTableViewControllerDelegate {
 class MeasuresTableViewController: UITableViewController {
     
     var measuresArray = [Measure]()
-    
     var foodParent: String?
-    
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    
     var delegate: MeasuresTableViewControllerDelegate?
 
     override func viewDidLoad() {

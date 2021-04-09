@@ -45,7 +45,7 @@ class MealPopoverViewController: UIViewController {
     }
     
     @IBAction func sliderChanged(_ sender: UISlider) {
-        mealInfo!.setQty(qty: Double(slider.value))
+        mealInfo!.qty = Double(slider.value)
         setViews()
         
         delegate?.sliderChanged(self, value: slider.value)

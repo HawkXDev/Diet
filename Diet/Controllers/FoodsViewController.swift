@@ -38,7 +38,6 @@ class FoodsViewController: UIViewController {
         
         loadData()
         updatePicker()
-        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -187,7 +186,6 @@ class FoodsViewController: UIViewController {
     }
     
     func updatePicker() {
-
         dishMeasuresPicker.reloadComponent(0)
     }
     
@@ -227,7 +225,6 @@ extension FoodsViewController: UITableViewDelegate, UITableViewDataSource {
         addMeasureButton.isEnabled = true
         
         updateDishMeasures()
-        
         updatePicker()
     }
     
