@@ -52,9 +52,25 @@ class MealsView: UIViewController {
     // MARK: - Routing
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let destinationVC = segue.destination as! FoodsViewController
-        destinationVC.delegate = self
-        destinationVC.dataManager = dataManager
+        if segue.identifier == K.foodsSegue {
+            let destinationVC = segue.destination as! FoodsViewController
+            destinationVC.delegate = self
+            destinationVC.dataManager = dataManager
+        } else if segue.identifier == K.mealPopover {
+            let popoverViewController =
+                segue.destination as! MealPopoverViewController
+            popoverViewController.modalPresentationStyle = .popover
+            let popover = popoverViewController.popoverPresentationController!
+            popover.delegate = self
+            
+            popover.permittedArrowDirections = .up
+            popover.sourceView = topSecondView
+            popover.sourceRect = topSecondView.bounds
+            
+            popoverViewController.delegate = self
+            popoverViewController.mealInfo = MealInfo(for: selectedMeal!)
+        }
+        
     }
     
     // MARK: - Load Data
@@ -70,9 +86,13 @@ class MealsView: UIViewController {
     func updateSummary() {
         mealsManager?.loadData(mealtime: mealtime)
         caloriesProgress.progress = mealsManager!.caloriesProgress
+        caloriesProgress.setProgressTintColor()
         carbsProgress.progress = mealsManager!.carbsProgress
+        carbsProgress.setProgressTintColor()
         proteinProgress.progress = mealsManager!.proteinProgress
+        proteinProgress.setProgressTintColor()
         fatProgress.progress = mealsManager!.fatProgress
+        fatProgress.setProgressTintColor()
         
         let mealElements = mealsManager!
             .getFoodElementsForMealtime(for: mealtime!)
@@ -85,41 +105,43 @@ class MealsView: UIViewController {
     // MARK: - Show Alert For Update Meal
     
     func showAlertForUpdateMeal() {
-        let savedQty = selectedMeal!.qty
-        let food = selectedMeal!.food!
-        let dishMeasure = selectedMeal!.dishMeasure!
+        performSegue(withIdentifier: K.mealPopover, sender: self)
         
-        let alert = UIAlertController(title: "Change\n\(food.name!)",
-                                      message: nil,
-                                      preferredStyle: .alert)
-        
-        var textField = UITextField()
-        
-        let measureName = dishMeasure.measure!.name!
-        alert.addTextField { (field) in
-            textField = field
-            textField.placeholder = "\(measureName)"
-            textField.addTarget(self,
-                                action: #selector(self.textFieldChanged),
-                                for: .editingChanged)
-        }
-        
-        alert.addAction(UIAlertAction(title: "Change",
-                                      style: .default,
-                                      handler: { (action) in
-                                        
-            if let qty = Double(textField.text ?? "") {
-                self.updateMeal(qty: qty)
-            }
-        }))
-        
-        alert.addAction(UIAlertAction(title: "Cancel",
-                                      style: .cancel,
-                                      handler: { (action) in
-            self.updateMeal(qty: savedQty)
-        }))
-        
-        present(alert, animated: true, completion: nil)
+//        let savedQty = selectedMeal!.qty
+//        let food = selectedMeal!.food!
+//        let dishMeasure = selectedMeal!.dishMeasure!
+//
+//        let alert = UIAlertController(title: "Change\n\(food.name!)",
+//                                      message: nil,
+//                                      preferredStyle: .alert)
+//
+//        var textField = UITextField()
+//
+//        let measureName = dishMeasure.measure!.name!
+//        alert.addTextField { (field) in
+//            textField = field
+//            textField.placeholder = "\(measureName)"
+//            textField.addTarget(self,
+//                                action: #selector(self.textFieldChanged),
+//                                for: .editingChanged)
+//        }
+//
+//        alert.addAction(UIAlertAction(title: "Change",
+//                                      style: .default,
+//                                      handler: { (action) in
+//
+//            if let qty = Double(textField.text ?? "") {
+//                self.updateMeal(qty: qty)
+//            }
+//        }))
+//
+//        alert.addAction(UIAlertAction(title: "Cancel",
+//                                      style: .cancel,
+//                                      handler: { (action) in
+//            self.updateMeal(qty: savedQty)
+//        }))
+//
+//        present(alert, animated: true, completion: nil)
     }
 }
 
@@ -141,17 +163,12 @@ extension MealsView: UITableViewDelegate, UITableViewDataSource {
             .dequeueReusableCell(withIdentifier: K.mealsTableCell,
                                  for: indexPath) as! MealsTableViewCell
         
-        let mealName = meal.food!.name!
-        let qty = meal.qty.isInteger()
-            ? String(format: "%.0f", meal.qty)
-            : String(format: "%.1f", meal.qty)
-        let measureName = meal.dishMeasure!.measure!.name!
-        cell.titleView.text = "\(mealName)  \(qty) \(measureName) "
-        
-        cell.caloriesView.text = String(meal.calories)
-        cell.carbsView.text = String(format: "%.1f", meal.carbs)
-        cell.proteinView.text = String(format: "%.1f", meal.protein)
-        cell.fatView.text = String(format: "%.1f", meal.fat)
+        let mealInfo = MealInfo(for: meal)
+        cell.titleView.text = mealInfo.titleText
+        cell.caloriesView.text = mealInfo.caloriesText
+        cell.carbsView.text = mealInfo.carbsText
+        cell.proteinView.text = mealInfo.proteinText
+        cell.fatView.text = mealInfo.fatText
         
         cell.delegate = self
         
@@ -228,6 +245,37 @@ extension MealsView: SwipeTableViewCellDelegate {
         deleteAction.image = UIImage(named: "delete-icon")
         
         return [deleteAction]
+    }
+    
+}
+
+// MARK: - Section Heading
+
+extension UIProgressView {
+    func setProgressTintColor() {
+        if self.progress < 0.25 {
+            self.progressTintColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+        } else if self.progress < 0.5 {
+            self.progressTintColor = #colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1)
+        } else if self.progress < 0.75 {
+            self.progressTintColor = #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1)
+        } else {
+            self.progressTintColor = #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1)
+        }
+    }
+}
+
+// MARK: - MealPopoverDelegate
+
+extension MealsView: MealPopoverDelegate,
+                     UIPopoverPresentationControllerDelegate {
+    func sliderChanged(_ popoverVC: MealPopoverViewController, value: Float) {
+        updateMeal(qty: Double(value))
+    }
+    
+    func adaptivePresentationStyle(for controller: UIPresentationController)
+    -> UIModalPresentationStyle {
+        return .none
     }
     
 }

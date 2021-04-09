@@ -16,6 +16,7 @@ struct K {
     static let mealSegue = "GoToMeal"
     static let foodsSegue = "GoToFoods"
     static let measuresSegue = "GoToMeasures"
+    static let mealPopover = "GoToMealPopover"
     
     static let settingsMenuCell = "SettingsMenuCell"
     static let mealtimeTableCell = "MealtimeTableCell"
