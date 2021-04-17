@@ -8,22 +8,28 @@
 import Foundation
 
 struct K {
-    static let calendarSegue = "GoToCalendar"
-    static let settingsSegue = "GoToSettings"
-    static let dietGoalsSegue = "GoToDietGoals"
-    static let myWeightSegue = "GoToMyWeight"
-    static let waterTrackerSegue = "GoToWaterTracker"
-    static let mealSegue = "GoToMeal"
-    static let foodsSegue = "GoToFoods"
-    static let measuresSegue = "GoToMeasures"
-    static let mealPopover = "GoToMealPopover"
     
-    static let settingsMenuCell = "SettingsMenuCell"
-    static let mealtimeTableCell = "MealtimeTableCell"
-    static let foodTableCell = "FoodTableCell"
-    static let mealsTableCell = "MealsTableCell"
-    static let mealsCellNibName = "MealsTableViewCell"
-    static let viewControllerTableCell = "ViewControllerTableCell"
-    static let viewControllerTableCellNibName = "ViewControllerTableCell"
-    static let measuresTableCell = "MeasuresTableCell"
+    struct Segues {
+        static let calendarSegue = "GoToCalendar"
+        static let settingsSegue = "GoToSettings"
+        static let dietGoalsSegue = "GoToDietGoals"
+        static let myWeightSegue = "GoToMyWeight"
+        static let waterTrackerSegue = "GoToWaterTracker"
+        static let mealSegue = "GoToMeal"
+        static let foodsSegue = "GoToFoods"
+        static let measuresSegue = "GoToMeasures"
+        static let mealPopoverSegue = "GoToMealPopover"
+    }
+    
+    struct TableViewCells {
+        static let settingsMenuCellReuseIdentifier = "SettingsMenuCell"
+        static let mealtimeTableCellReuseIdentifier = "MealtimeTableCell"
+        static let foodTableCellReuseIdentifier = "FoodTableCell"
+        static let measuresTableCellReuseIdentifier = "MeasuresTableCell"
+        static let mealsTableCellReuseIdentifier = "MealsTableCell"
+        static let mealsCellNibName = "MealsTableViewCell"
+        static let vcTableCellReuseIdentifier = "ViewControllerTableCell"
+        static let vcTableCellNibName = "ViewControllerTableCell"
+    }
+    
 }

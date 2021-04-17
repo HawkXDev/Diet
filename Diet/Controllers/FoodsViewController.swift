@@ -124,28 +124,23 @@ class FoodsViewController: UIViewController {
     
     @IBAction func addDishPressed(_ sender: UIButton) {
         
-        if let food = selectedFood {
+        if let food = selectedFood, let selectedMeasure = selectedDishMeasure {
             
-            let alert = UIAlertController(title: "Add\n\(food.name!)",
-                                          message: nil,
-                                          preferredStyle: .alert)
+            let alert = UIAlertController(title: "Add\n\(food.name!)", message: nil, preferredStyle: .alert)
             
             var textField = UITextField()
-            let measureName = self.selectedDishMeasure!.measure!.name!
+            let measureName = selectedMeasure.measure!.name!
+            
             alert.addTextField { (field) in
                 textField = field
                 textField.placeholder = "\(measureName)"
             }
             
-            alert.addAction(UIAlertAction(title: "Add",
-                                          style: .default,
-                                          handler: { (action) in
+            alert.addAction(UIAlertAction(title: "Add", style: .default, handler: { (action) in
                 if let qty = Double(textField.text ?? "") {
-                    
                     let meal = Meal(context: self.context)
                     meal.food = food
-                    meal.weight =
-                        Int32(qty * Double(self.selectedDishMeasure!.weight))
+                    meal.weight = Int32(qty * Double(self.selectedDishMeasure!.weight))
                     meal.date = self.dataManager?.dateToView
                     meal.calories = meal.weight * food.calories / 100
                     meal.carbs = Double(meal.weight) * food.carbs / 100.0
@@ -160,18 +155,36 @@ class FoodsViewController: UIViewController {
                 }
             }))
             
-            alert.addAction(UIAlertAction(title: "Cancel",
-                                          style: .cancel,
-                                          handler: nil))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             
             present(alert, animated: true, completion: nil)
+        } else {
+            if selectedDishMeasure == nil {
+                pulceOrangeBorder(with: dishMeasuresPicker)
+            }
+            if selectedFood == nil {
+                pulceOrangeBorder(with: tableView)
+            }
+        }
+    }
+    
+    func pulceOrangeBorder(with view: UIView) {
+        let savedBorderWidth = view.layer.borderWidth
+        let savedCornerRadius = view.layer.cornerRadius
+        let savedBorderColor = view.layer.borderColor
+        view.layer.borderColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
+        view.layer.borderWidth = 1
+        view.layer.cornerRadius = 20
+        Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { (timer) in
+            view.layer.borderColor = savedBorderColor
+            view.layer.borderWidth = savedBorderWidth
+            view.layer.cornerRadius = savedCornerRadius
         }
     }
     
     // MARK: - Funcs
     
     func loadData() {
-        
         let request: NSFetchRequest<Food> = Food.fetchRequest()
         let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
         request.sortDescriptors = [sortDescriptor]
@@ -202,24 +215,21 @@ class FoodsViewController: UIViewController {
 
 extension FoodsViewController: UITableViewDelegate, UITableViewDataSource {
     
-    func tableView(_ tableView: UITableView,
-                   numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return foodArray.count
     }
     
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let cell = tableView
-            .dequeueReusableCell(withIdentifier: K.foodTableCell,
-                                 for: indexPath)
+
+        let cell = tableView.dequeueReusableCell(withIdentifier: K.TableViewCells.foodTableCellReuseIdentifier,
+                                                 for: indexPath)
         cell.textLabel?.text = foodArray[indexPath.row].name
         
         return cell
     }
     
-    func tableView(_ tableView: UITableView,
-                   didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         selectedFood = foodArray[indexPath.row]
         addMeasureButton.isEnabled = true
@@ -229,9 +239,7 @@ extension FoodsViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func updateDishMeasures() {
-        
-        dishMeasuresArray =
-            selectedFood?.dishMeasures?.allObjects as! [DishMeasure]
+        dishMeasuresArray = selectedFood?.dishMeasures?.allObjects as! [DishMeasure]
         setSelectedDishMeasureFirst()
     }
     
@@ -241,8 +249,7 @@ extension FoodsViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension FoodsViewController: MeasuresTableViewControllerDelegate {
     
-    func chooseMeasure(_ measuresTVC: MeasuresTableViewController,
-                       dishMeasure: DishMeasure) {
+    func chooseMeasure(_ measuresTVC: MeasuresTableViewController, dishMeasure: DishMeasure) {
         
         dishMeasure.food = selectedFood
         

@@ -581,7 +581,6 @@
                                                 </prototypes>
                                             </tableView>
                                         </subviews>
-                                        <color key="backgroundColor" systemColor="systemOrangeColor"/>
                                         <constraints>
                                             <constraint firstItem="xtO-LS-3PL" firstAttribute="top" secondItem="3uJ-FE-h0r" secondAttribute="top" id="3RW-84-4O3"/>
                                             <constraint firstAttribute="trailing" secondItem="xtO-LS-3PL" secondAttribute="trailing" id="8rB-zD-0w3"/>
@@ -1381,9 +1380,6 @@
         </systemColor>
         <systemColor name="systemBlueColor">
             <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="systemOrangeColor">
-            <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

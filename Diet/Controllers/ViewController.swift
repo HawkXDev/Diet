@@ -41,10 +41,8 @@ class ViewController: UIViewController {
     private func setupVC() {
         mealtimesTableView.delegate = self
         mealtimesTableView.dataSource = self
-        mealtimesTableView
-            .register(UINib(nibName: K.viewControllerTableCellNibName,
-                            bundle: nil),
-                      forCellReuseIdentifier: K.viewControllerTableCell)
+        mealtimesTableView.register(UINib(nibName: K.TableViewCells.vcTableCellNibName, bundle: nil),
+                                    forCellReuseIdentifier: K.TableViewCells.vcTableCellReuseIdentifier)
         
         mealsManager = MealsManager(dataManager: dataManager)
     }
@@ -75,12 +73,12 @@ class ViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        if segue.identifier == K.calendarSegue {
+        if segue.identifier == K.Segues.calendarSegue {
             let destinationVC = segue.destination as! CalendarViewController
             
             destinationVC.delegate = self
             destinationVC.dataManager = dataManager
-        } else if segue.identifier == K.mealSegue {
+        } else if segue.identifier == K.Segues.mealSegue {
             let destinationVC = segue.destination as! MealsView
             
             destinationVC.navigationItem.title = Mealtimes.textValue(for: selectedRowTableView)
@@ -125,19 +123,18 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(
-            withIdentifier: K.viewControllerTableCell,
-            for: indexPath) as! ViewControllerTableCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: K.TableViewCells.vcTableCellReuseIdentifier,
+                                                       for: indexPath) as? ViewControllerTableCell else {
+            fatalError("Unexpected Index Path")
+        }
         
         let mealtime = Mealtimes.textValue(for: indexPath.row)
         
         cell.titleView.text = mealtime
         
-        let foodElements = mealsManager!
-            .getFoodElementsForMealtime(for: mealtime)
+        let foodElements = mealsManager!.getFoodElementsForMealtime(for: mealtime)
         
         if foodElements.calories > 0 {
-            
             cell.rightView.isHidden = false
             
             cell.caloriesView.text = String(foodElements.calories)
@@ -145,7 +142,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             cell.proteinView.text = String(foodElements.protein)
             cell.fatView.text = String(foodElements.fat)
         } else {
-            
             cell.rightView.isHidden = true
         }
         
@@ -156,7 +152,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                    didSelectRowAt indexPath: IndexPath) {
         
         selectedRowTableView = indexPath.row
-        performSegue(withIdentifier: K.mealSegue, sender: self)
+        performSegue(withIdentifier: K.Segues.mealSegue, sender: self)
         tableView.deselectRow(at: indexPath, animated: true)
     }
     

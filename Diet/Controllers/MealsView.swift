@@ -28,7 +28,7 @@ class MealsView: UIViewController {
     var selectedMeal: Meal? {
         didSet {
             mealInfo = MealInfo(for: selectedMeal!)
-            performSegue(withIdentifier: K.mealPopover, sender: self)
+            performSegue(withIdentifier: K.Segues.mealPopoverSegue, sender: self)
         }
     }
     
@@ -41,8 +41,8 @@ class MealsView: UIViewController {
     private func setupVC() {
         mealtime = self.navigationItem.title
         
-        tableView.register(UINib(nibName: K.mealsCellNibName, bundle: nil),
-                           forCellReuseIdentifier: K.mealsTableCell)
+        tableView.register(UINib(nibName: K.TableViewCells.mealsCellNibName, bundle: nil),
+                           forCellReuseIdentifier: K.TableViewCells.mealsTableCellReuseIdentifier)
         tableView.delegate = self
         tableView.dataSource = self
         
@@ -56,13 +56,13 @@ class MealsView: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        if segue.identifier == K.foodsSegue {
+        if segue.identifier == K.Segues.foodsSegue {
             
             let destinationVC = segue.destination as! FoodsViewController
             destinationVC.delegate = self
             destinationVC.dataManager = dataManager
             
-        } else if segue.identifier == K.mealPopover {
+        } else if segue.identifier == K.Segues.mealPopoverSegue {
             
             let popoverViewController =
                 segue.destination as! MealPopoverViewController
@@ -106,10 +106,8 @@ class MealsView: UIViewController {
         
         let mealElements = mealsManager!
             .getFoodElementsForMealtime(for: mealtime!)
-        mealTotalInfo.text = "\(mealElements.calories) kcal  (" +
-            "c: \(mealElements.carbs) " +
-            "p: \(mealElements.protein) " +
-            "f: \(mealElements.fat))"
+        mealTotalInfo.text = "\(mealElements.calories) kcal  (c: \(mealElements.carbs) " +
+            "p: \(mealElements.protein) f: \(mealElements.fat))"
     }
     
     // MARK: - Show Alert For Update Meal
@@ -169,14 +167,14 @@ extension MealsView: UITableViewDelegate, UITableViewDataSource {
         return mealsManager!.mealsCount
     }
     
-    func tableView(_ tableView: UITableView,
-                   cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let meal = mealsManager!.getMeal(index: indexPath.row)
         
-        let cell = tableView
-            .dequeueReusableCell(withIdentifier: K.mealsTableCell,
-                                 for: indexPath) as! MealsTableViewCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: K.TableViewCells.mealsTableCellReuseIdentifier,
+                                                       for: indexPath) as? MealsTableViewCell else {
+            fatalError("Unexpected Index Path")
+        }
         
         let mealInfo = MealInfo(for: meal)
         cell.titleView.text = mealInfo.titleText

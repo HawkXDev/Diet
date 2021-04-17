@@ -78,7 +78,8 @@ class MeasuresTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: K.measuresTableCell, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: K.TableViewCells.measuresTableCellReuseIdentifier,
+                                                 for: indexPath)
         cell.textLabel?.text = measuresArray[indexPath.row].name
         
         return cell

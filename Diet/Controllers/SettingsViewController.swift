@@ -32,7 +32,8 @@ extension SettingsViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: K.settingsMenuCell, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: K.TableViewCells.settingsMenuCellReuseIdentifier,
+                                                 for: indexPath)
         cell.textLabel?.text = menuItems[indexPath.row]
         
         return cell
@@ -47,11 +48,11 @@ extension SettingsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if indexPath.row == 0 {
-            performSegue(withIdentifier: K.dietGoalsSegue, sender: self)
+            performSegue(withIdentifier: K.Segues.dietGoalsSegue, sender: self)
         } else if indexPath.row == 1 {
-            performSegue(withIdentifier: K.myWeightSegue, sender: self)
+            performSegue(withIdentifier: K.Segues.myWeightSegue, sender: self)
         } else {
-            performSegue(withIdentifier: K.waterTrackerSegue, sender: self)
+            performSegue(withIdentifier: K.Segues.waterTrackerSegue, sender: self)
         }
         
         tableView.deselectRow(at: indexPath, animated: true)
