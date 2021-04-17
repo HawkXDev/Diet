@@ -14,6 +14,10 @@ struct FoodElements {
     let protein: Int
     let fat: Int
     
+    let carbsProc: Double
+    let proteinProc: Double
+    let fatProc: Double
+    
     let caloriesText: String
     let carbsText: String
     let proteinText: String
@@ -26,11 +30,15 @@ struct FoodElements {
         self.protein = protein
         self.fat = fat
         
+        self.carbsProc = Double(carbs) * 4.0 / Double(calories)
+        self.proteinProc = Double(protein) * 4.0 / Double(calories)
+        self.fatProc = Double(fat) * 9.0 / Double(calories)
+        
         if calories != 0 {
             self.caloriesText = "\(calories) kcal"
-            self.carbsText = "\(carbs) g (\(carbs * 4) kcal) \(carbs * 4 * 100 / calories)%"
-            self.proteinText = "\(protein) g (\(protein * 4) kcal) \(protein * 4 * 100 / calories)%"
-            self.fatText = "\(fat) g (\(fat * 9) kcal) \(fat * 9 * 100 / calories)%"
+            self.carbsText = "\(carbs) g (\(carbs * 4) kcal)"
+            self.proteinText = "\(protein) g (\(protein * 4) kcal)"
+            self.fatText = "\(fat) g (\(fat * 9) kcal)"
         } else {
             self.caloriesText = "0 kcal"
             self.carbsText = "\(carbs) g (\(carbs * 4) kcal)"

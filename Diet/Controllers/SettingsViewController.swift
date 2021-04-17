@@ -9,7 +9,7 @@ import UIKit
 
 class SettingsViewController: UIViewController {
     
-    let menuItems = ["Diet Goals", "My Weight", "Water Tracker"]
+    let menuItems = ["Nutrient Goals", "My Weight", "Water Tracker"]
 
     @IBOutlet weak var tableView: UITableView!
     

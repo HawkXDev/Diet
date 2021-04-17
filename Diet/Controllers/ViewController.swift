@@ -23,6 +23,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var fatValue: UILabel!
     @IBOutlet weak var mealtimesTableView: UITableView!
     @IBOutlet weak var tableViewHeightLayout: NSLayoutConstraint!
+    @IBOutlet weak var summaryView: UIView!
     
     // MARK: - Params
     
@@ -45,6 +46,11 @@ class ViewController: UIViewController {
                                     forCellReuseIdentifier: K.TableViewCells.vcTableCellReuseIdentifier)
         
         mealsManager = MealsManager(dataManager: dataManager)
+        
+        mealtimesTableView.layer.cornerRadius = 10
+        mealtimesTableView.alwaysBounceVertical = false
+        
+        summaryView.layer.cornerRadius = 10
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -54,6 +60,8 @@ class ViewController: UIViewController {
         updateSummary()
         
         navigationController?.isNavigationBarHidden = true
+        
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
