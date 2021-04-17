@@ -123,41 +123,8 @@ class FoodsViewController: UIViewController {
     }
     
     @IBAction func addDishPressed(_ sender: UIButton) {
-        
         if let food = selectedFood, let selectedMeasure = selectedDishMeasure {
-            
-            let alert = UIAlertController(title: "Add\n\(food.name!)", message: nil, preferredStyle: .alert)
-            
-            var textField = UITextField()
-            let measureName = selectedMeasure.measure!.name!
-            
-            alert.addTextField { (field) in
-                textField = field
-                textField.placeholder = "\(measureName)"
-            }
-            
-            alert.addAction(UIAlertAction(title: "Add", style: .default, handler: { (action) in
-                if let qty = Double(textField.text ?? "") {
-                    let meal = Meal(context: self.context)
-                    meal.food = food
-                    meal.weight = Int32(qty * Double(self.selectedDishMeasure!.weight))
-                    meal.date = self.dataManager?.dateToView
-                    meal.calories = meal.weight * food.calories / 100
-                    meal.carbs = Double(meal.weight) * food.carbs / 100.0
-                    meal.protein = Double(meal.weight) * food.protein / 100.0
-                    meal.fat = Double(meal.weight) * food.fat / 100.0
-                    meal.dishMeasure = self.selectedDishMeasure
-                    meal.qty = qty
-                    
-                    self.delegate?.didAddMeal(self, meal: meal)
-                    
-                    self.navigationController?.popViewController(animated: true)
-                }
-            }))
-            
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-            
-            present(alert, animated: true, completion: nil)
+            presentAlert(selectedFood: food, selectedMeasure: selectedMeasure)
         } else {
             if selectedDishMeasure == nil {
                 pulceOrangeBorder(with: dishMeasuresPicker)
@@ -166,6 +133,41 @@ class FoodsViewController: UIViewController {
                 pulceOrangeBorder(with: tableView)
             }
         }
+    }
+    
+    func presentAlert(selectedFood food: Food, selectedMeasure dishMeasure: DishMeasure) {
+        let alert = UIAlertController(title: "Add\n\(food.name!)", message: nil, preferredStyle: .alert)
+        
+        var textField = UITextField()
+        let measureName = dishMeasure.measure!.name!
+        
+        alert.addTextField { (field) in
+            textField = field
+            textField.placeholder = "\(measureName)"
+        }
+        
+        alert.addAction(UIAlertAction(title: "Add", style: .default, handler: { (action) in
+            if let qty = Double(textField.text ?? "") {
+                let meal = Meal(context: self.context)
+                meal.food = food
+                meal.weight = Int32(qty * Double(self.selectedDishMeasure!.weight))
+                meal.date = self.dataManager?.dateToView
+                meal.calories = meal.weight * food.calories / 100
+                meal.carbs = Double(meal.weight) * food.carbs / 100.0
+                meal.protein = Double(meal.weight) * food.protein / 100.0
+                meal.fat = Double(meal.weight) * food.fat / 100.0
+                meal.dishMeasure = self.selectedDishMeasure
+                meal.qty = qty
+                
+                self.delegate?.didAddMeal(self, meal: meal)
+                
+                self.navigationController?.popViewController(animated: true)
+            }
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        present(alert, animated: true, completion: nil)
     }
     
     func pulceOrangeBorder(with view: UIView) {
