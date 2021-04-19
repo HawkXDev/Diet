@@ -550,7 +550,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <searchBar hidden="YES" contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="kNC-xa-J6H">
+                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="kNC-xa-J6H">
                                 <rect key="frame" x="0.0" y="44" width="414" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="cqu-mG-PpR"/>
@@ -561,13 +561,13 @@
                                 <rect key="frame" x="12" y="94" width="390" height="630"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3uJ-FE-h0r">
-                                        <rect key="frame" x="0.0" y="0.0" width="390" height="300"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="390" height="450"/>
                                         <subviews>
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="xtO-LS-3PL">
-                                                <rect key="frame" x="0.0" y="0.0" width="390" height="300"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="390" height="450"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <prototypes>
-                                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="FoodTableCell" id="E8I-tw-Bl5">
+                                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="FoodTableCell" id="E8I-tw-Bl5" customClass="SwipeTableViewCell" customModule="SwipeCellKit">
                                                         <rect key="frame" x="0.0" y="28" width="390" height="43.666667938232422"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="E8I-tw-Bl5" id="z46-9a-OLQ">
@@ -583,17 +583,17 @@
                                             <constraint firstAttribute="trailing" secondItem="xtO-LS-3PL" secondAttribute="trailing" id="8rB-zD-0w3"/>
                                             <constraint firstItem="xtO-LS-3PL" firstAttribute="leading" secondItem="3uJ-FE-h0r" secondAttribute="leading" id="N25-dv-I1Z"/>
                                             <constraint firstAttribute="bottom" secondItem="xtO-LS-3PL" secondAttribute="bottom" id="r61-Eu-XXs"/>
-                                            <constraint firstAttribute="height" constant="300" id="zya-HT-Y3d"/>
+                                            <constraint firstAttribute="height" constant="450" id="zya-HT-Y3d"/>
                                         </constraints>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="fEf-tC-SKJ">
-                                        <rect key="frame" x="0.0" y="310" width="390" height="224"/>
+                                        <rect key="frame" x="0.0" y="460" width="390" height="118"/>
                                         <subviews>
                                             <pickerView contentMode="scaleToFill" horizontalHuggingPriority="249" verticalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="bax-du-xSM">
-                                                <rect key="frame" x="0.0" y="4" width="355.33333333333331" height="216"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="355.33333333333331" height="118"/>
                                             </pickerView>
                                             <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CgC-QZ-RV1">
-                                                <rect key="frame" x="365.33333333333331" y="100" width="24.666666666666686" height="24"/>
+                                                <rect key="frame" x="365.33333333333331" y="47" width="24.666666666666686" height="24"/>
                                                 <state key="normal" image="plus" catalog="system">
                                                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="23"/>
                                                 </state>
@@ -603,11 +603,6 @@
                                             </button>
                                         </subviews>
                                     </stackView>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Tm5-s2-6Ku">
-                                        <rect key="frame" x="0.0" y="544" width="390" height="34"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </textField>
                                     <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="G3u-gC-Qkk">
                                         <rect key="frame" x="172.66666666666666" y="588" width="45" height="42"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="25"/>
@@ -618,12 +613,10 @@
                                     </button>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="Tm5-s2-6Ku" secondAttribute="trailing" id="8sp-an-xlJ"/>
                                     <constraint firstItem="fEf-tC-SKJ" firstAttribute="leading" secondItem="52p-AV-6gG" secondAttribute="leading" id="Oe1-DV-XqB"/>
                                     <constraint firstAttribute="trailing" secondItem="fEf-tC-SKJ" secondAttribute="trailing" id="R7j-QU-xib"/>
                                     <constraint firstAttribute="trailing" secondItem="3uJ-FE-h0r" secondAttribute="trailing" id="awO-1O-98C"/>
                                     <constraint firstItem="3uJ-FE-h0r" firstAttribute="leading" secondItem="52p-AV-6gG" secondAttribute="leading" id="xLT-ZC-ioS"/>
-                                    <constraint firstItem="Tm5-s2-6Ku" firstAttribute="leading" secondItem="52p-AV-6gG" secondAttribute="leading" id="yI0-se-1Go"/>
                                 </constraints>
                             </stackView>
                         </subviews>
@@ -649,6 +642,8 @@
                     <connections>
                         <outlet property="addMeasureButton" destination="CgC-QZ-RV1" id="JHP-5S-vSB"/>
                         <outlet property="dishMeasuresPicker" destination="bax-du-xSM" id="re9-2y-0kL"/>
+                        <outlet property="pickerZoneView" destination="fEf-tC-SKJ" id="4vb-7Z-NBE"/>
+                        <outlet property="searchBar" destination="kNC-xa-J6H" id="F9d-ce-jft"/>
                         <outlet property="tableView" destination="xtO-LS-3PL" id="xKN-7L-8T0"/>
                     </connections>
                 </viewController>

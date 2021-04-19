@@ -18,10 +18,15 @@ class MeasuresTableViewController: UITableViewController {
     var foodParent: String?
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var delegate: MeasuresTableViewControllerDelegate?
+    
+    var selectedMeasure: Measure? {
+        didSet {
+            presentAlert()
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         loadData()
     }
     
@@ -80,30 +85,37 @@ class MeasuresTableViewController: UITableViewController {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: K.TableViewCells.measuresTableCellReuseIdentifier,
                                                  for: indexPath)
-        cell.textLabel?.text = measuresArray[indexPath.row].name
         
+        cell.textLabel?.text = measuresArray[indexPath.row].name
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         tableView.deselectRow(at: indexPath, animated: true)
-        
-        let selectedMeasure = measuresArray[indexPath.row]
-        let alert = UIAlertController(title: "Add \(selectedMeasure.name!) \nto \(foodParent!) ?", message: "", preferredStyle: .alert)
+        selectedMeasure = measuresArray[indexPath.row]
+    }
+    
+    func presentAlert() {
+        let alert = UIAlertController(title: "Add \(selectedMeasure!.name!) \nto \(foodParent!) ?",
+                                      message: "",
+                                      preferredStyle: .alert)
         
         var weightTextField = UITextField()
+        
         alert.addTextField { (field) in
             weightTextField = field
             weightTextField.placeholder = "weight"
+            if self.selectedMeasure!.name == "грамм" {
+                weightTextField.text = "1"
+                weightTextField.isEnabled = false
+            }
         }
         
         alert.addAction(UIAlertAction(title: "Add", style: .default, handler: { (action) in
-            
             if let weight = Int32(weightTextField.text ?? "") {
                 
                 let dishMeasure = DishMeasure(context: self.context)
-                dishMeasure.measure = selectedMeasure
+                dishMeasure.measure = self.selectedMeasure
                 dishMeasure.weight = weight
                 
                 self.delegate?.chooseMeasure(self, dishMeasure: dishMeasure)
@@ -115,5 +127,4 @@ class MeasuresTableViewController: UITableViewController {
         
         present(alert, animated: true, completion: nil)
     }
-    
 }

@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreData
+import SwipeCellKit
 
 protocol FoodsViewControllerDelegate {
     func didAddMeal(_ foodsViewController: FoodsViewController, meal: Meal)
@@ -15,38 +16,57 @@ protocol FoodsViewControllerDelegate {
 class FoodsViewController: UIViewController {
     
     var foodArray = [Food]()
-    let context = (UIApplication.shared.delegate as! AppDelegate)
-        .persistentContainer.viewContext
-    var selectedFood: Food?
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var delegate: FoodsViewControllerDelegate?
     var dishMeasuresArray = [DishMeasure]()
     var selectedDishMeasure: DishMeasure?
     var dataManager: DataManager?
     
+    var selectedFood: Food? {
+        didSet {
+            addMeasureButton.isEnabled = true
+            updateDishMeasures()
+            updatePicker()
+        }
+    }
+    
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var addMeasureButton: UIButton!
     @IBOutlet weak var dishMeasuresPicker: UIPickerView!
+    @IBOutlet weak var pickerZoneView: UIStackView!
+    @IBOutlet weak var searchBar: UISearchBar!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        setupVC()
+    }
+    
+    func setupVC() {
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.rowHeight = 60
+        tableView.layer.borderColor = #colorLiteral(red: 0.1592048705, green: 0.7238836884, blue: 0.4517703056, alpha: 1)
+        tableView.layer.borderWidth = 1
+        tableView.layer.cornerRadius = 5
+        
+        pickerZoneView.layer.borderColor = #colorLiteral(red: 0.1592048705, green: 0.7238836884, blue: 0.4517703056, alpha: 1)
+        pickerZoneView.layer.borderWidth = 1
+        pickerZoneView.layer.cornerRadius = 5
         
         dishMeasuresPicker.delegate = self
         dishMeasuresPicker.dataSource = self
+        
+        searchBar.delegate = self
         
         loadData()
         updatePicker()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
         // Because first the segue goes to the NavigationController
         let destinationVC = segue.destination as! UINavigationController
         
-        let tableViewVC =
-            destinationVC.topViewController as! MeasuresTableViewController
+        let tableViewVC = destinationVC.topViewController as! MeasuresTableViewController
         tableViewVC.foodParent = selectedFood?.name
         tableViewVC.delegate = self
     }
@@ -54,10 +74,7 @@ class FoodsViewController: UIViewController {
     // MARK: - IBActions
     
     @IBAction func foodAddPressed(_ sender: UIBarButtonItem) {
-        
-        let alert = UIAlertController(title: "Add food",
-                                      message: "",
-                                      preferredStyle: .alert)
+        let alert = UIAlertController(title: "Add food", message: "", preferredStyle: .alert)
         
         var fieldName = UITextField()
         var fieldCalories = UITextField()
@@ -186,10 +203,10 @@ class FoodsViewController: UIViewController {
     
     // MARK: - Funcs
     
-    func loadData() {
-        let request: NSFetchRequest<Food> = Food.fetchRequest()
-        let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
-        request.sortDescriptors = [sortDescriptor]
+    func loadData(with request:NSFetchRequest<Food> = Food.fetchRequest(), predicate: NSPredicate? = nil) {
+        
+        request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        request.predicate = predicate
         
         do {
             foodArray = try context.fetch(request)
@@ -223,21 +240,20 @@ extension FoodsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
-        let cell = tableView.dequeueReusableCell(withIdentifier: K.TableViewCells.foodTableCellReuseIdentifier,
-                                                 for: indexPath)
+        
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: K.TableViewCells.foodTableCellReuseIdentifier, for: indexPath) as? SwipeTableViewCell else {
+            fatalError("Unexpected Index Path")
+        }
+        
+        cell.delegate = self
+        
         cell.textLabel?.text = foodArray[indexPath.row].name
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         selectedFood = foodArray[indexPath.row]
-        addMeasureButton.isEnabled = true
-        
-        updateDishMeasures()
-        updatePicker()
     }
     
     func updateDishMeasures() {
@@ -264,6 +280,38 @@ extension FoodsViewController: MeasuresTableViewControllerDelegate {
         updateDishMeasures()
         updatePicker()
     }
+}
+
+// MARK: - SwipeTableViewCellDelegate
+
+extension FoodsViewController: SwipeTableViewCellDelegate {
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+        
+        guard orientation == .right else { return nil }
+        
+        let deleteAction = SwipeAction(style: .destructive, title: "Delete") { (action, indexPath) in
+            self.deleteFood(at: indexPath.row)
+        }
+        
+        deleteAction.image = UIImage(named: "delete-icon")
+        
+        return [deleteAction]
+    }
+    
+    func deleteFood(at index: Int) {
+        context.delete(self.foodArray[index])
+        do {
+            try context.save()
+        } catch {
+            print("Error saving context. \(error)")
+        }
+        foodArray.remove(at: index)
+        tableView.reloadData()
+        
+        dishMeasuresPicker.reloadComponent(0)
+    }
+
 }
 
 // MARK: - UIPickerViewDelegate, UIPickerViewDataSource
@@ -296,4 +344,28 @@ extension FoodsViewController: UIPickerViewDelegate, UIPickerViewDataSource {
             selectedDishMeasure = dishMeasuresArray[row]
         }
     }
+}
+
+// MARK: - Search Bar Methods
+
+extension FoodsViewController: UISearchBarDelegate {
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        let request: NSFetchRequest<Food> = Food.fetchRequest()
+        let predicate = NSPredicate(format: "name CONTAINS[cd] %@", searchBar.text!)
+        loadData(with: request, predicate: predicate)
+        DispatchQueue.main.async {
+            searchBar.resignFirstResponder()
+        }
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchBar.text?.count == 0 {
+            loadData()
+            DispatchQueue.main.async {
+                searchBar.resignFirstResponder()
+            }
+        }
+    }
+    
 }

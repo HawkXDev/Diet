@@ -41,8 +41,7 @@ class MealsView: UIViewController {
     private func setupVC() {
         mealtime = self.navigationItem.title
         
-        tableView.register(UINib(nibName: K.TableViewCells.mealsCellNibName, bundle: nil),
-                           forCellReuseIdentifier: K.TableViewCells.mealsTableCellReuseIdentifier)
+        tableView.register(UINib(nibName: K.TableViewCells.mealsCellNibName, bundle: nil), forCellReuseIdentifier: K.TableViewCells.mealsTableCellReuseIdentifier)
         tableView.delegate = self
         tableView.dataSource = self
         
@@ -171,8 +170,7 @@ extension MealsView: UITableViewDelegate, UITableViewDataSource {
         
         let meal = mealsManager!.getMeal(index: indexPath.row)
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: K.TableViewCells.mealsTableCellReuseIdentifier,
-                                                       for: indexPath) as? MealsTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: K.TableViewCells.mealsTableCellReuseIdentifier, for: indexPath) as? MealsTableViewCell else {
             fatalError("Unexpected Index Path")
         }
         
@@ -209,12 +207,9 @@ extension MealsView: UITableViewDelegate, UITableViewDataSource {
 // MARK: - FoodsViewControllerDelegate
 
 extension MealsView: FoodsViewControllerDelegate {
-    
     func didAddMeal(_ foodsViewController: FoodsViewController, meal: Meal) {
         meal.mealtime = mealtime
-        
         mealsManager!.saveContext()
-        
         loadData()
     }
 }
@@ -223,8 +218,7 @@ extension MealsView: FoodsViewControllerDelegate {
 
 extension MealsView: SwipeTableViewCellDelegate {
     
-    func tableView(_ tableView: UITableView,
-                   editActionsForRowAt indexPath: IndexPath,
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath,
                    for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
         guard orientation == .right else { return nil }
 
@@ -262,14 +256,13 @@ extension UIProgressView {
 
 // MARK: - MealPopoverDelegate
 
-extension MealsView: MealPopoverDelegate,
-                     UIPopoverPresentationControllerDelegate {
+extension MealsView: MealPopoverDelegate, UIPopoverPresentationControllerDelegate {
+    
     func sliderChanged(_ popoverVC: MealPopoverViewController, value: Float) {
         updateMeal(qty: Double(value))
     }
     
-    func adaptivePresentationStyle(for controller: UIPresentationController)
-    -> UIModalPresentationStyle {
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
         return .none
     }
     
